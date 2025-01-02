@@ -20,6 +20,9 @@ private:
 
     void updateCtrlDatas();
 
+private slots:
+    void onWriteParamButtonClicked();
+
 private:
     Ui::MainWindow *ui;
 };

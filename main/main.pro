@@ -15,6 +15,7 @@ SOURCES += \
     Utility/ImPath.cpp \
     Utility/LogBuffer.cpp \
     Utility/LogUtil.cpp \
+    datamodel.cpp \
     main.cpp \
     mainwindow.cpp \
     settingmanager.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     Utility/LogBuffer.h \
     Utility/LogMacro.h \
     Utility/LogUtil.h \
+    datamodel.h \
     mainwindow.h \
     settingmanager.h \
     uiutil.h
@@ -44,3 +46,6 @@ QMAKE_LFLAGS_RELEASE += /DEBUG
 DEFINES += QT_MESSAGELOGCONTEXT
 
 RC_ICONS = res\logo.ico
+
+RESOURCES += \
+    resource.qrc

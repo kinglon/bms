@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/wendu.png</file>
+        <file>res/battery.png</file>
+    </qresource>
+</RCC>

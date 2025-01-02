@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="batteryStatusTab">
      <attribute name="title">
@@ -48,11 +48,16 @@
          <x>200</x>
          <y>10</y>
          <width>60</width>
-         <height>109</height>
+         <height>110</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-image: url(:/res/battery.png);
+            background-repeat: no-repeat;
+            background-position: center;</string>
+       </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -172,7 +177,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -217,7 +222,7 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -231,6 +236,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_21">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_21">
               <property name="minimumSize">
@@ -238,6 +246,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>电池总电压</string>
@@ -255,6 +267,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>60V</string>
               </property>
@@ -267,6 +283,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_46">
               <property name="minimumSize">
@@ -274,6 +293,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>电池电流</string>
@@ -291,6 +314,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>5A</string>
               </property>
@@ -303,6 +330,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_47">
               <property name="minimumSize">
@@ -310,6 +340,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>最高电压</string>
@@ -327,6 +361,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.78V</string>
               </property>
@@ -343,6 +381,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_22">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_10">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_49">
               <property name="minimumSize">
@@ -350,6 +391,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>最低电压</string>
@@ -367,6 +412,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.57V</string>
               </property>
@@ -379,6 +428,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_11">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_51">
               <property name="minimumSize">
@@ -386,6 +438,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>总循环</string>
@@ -403,6 +459,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>50AH</string>
               </property>
@@ -415,6 +475,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_45">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_120">
               <property name="minimumSize">
@@ -422,6 +485,9 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
               </property>
               <property name="text">
                <string/>
@@ -438,6 +504,9 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
               </property>
               <property name="text">
                <string/>
@@ -466,7 +535,7 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -480,6 +549,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_23">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_12">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_53">
               <property name="minimumSize">
@@ -487,6 +559,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>1 battery</string>
@@ -504,6 +580,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -516,6 +596,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_13">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_55">
               <property name="minimumSize">
@@ -523,6 +606,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>2 battery</string>
@@ -540,6 +627,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -552,6 +643,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_17">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_63">
               <property name="minimumSize">
@@ -559,6 +653,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>3 battery</string>
@@ -576,6 +674,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -588,6 +690,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_18">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_65">
               <property name="minimumSize">
@@ -595,6 +700,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>4 battery</string>
@@ -612,6 +721,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -624,6 +737,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_20">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_69">
               <property name="minimumSize">
@@ -631,6 +747,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>5 battery</string>
@@ -648,6 +768,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -660,6 +784,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_14">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_57">
               <property name="minimumSize">
@@ -667,6 +794,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>6 battery</string>
@@ -684,6 +815,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -698,8 +833,14 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_24">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_15">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_59">
               <property name="minimumSize">
@@ -707,6 +848,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>7 battery</string>
@@ -724,6 +869,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -736,6 +885,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_16">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_61">
               <property name="minimumSize">
@@ -743,6 +895,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>8 battery</string>
@@ -760,6 +916,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -772,6 +932,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_21">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_71">
               <property name="minimumSize">
@@ -779,6 +942,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>9 battery</string>
@@ -796,6 +963,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -808,6 +979,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_22">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_73">
               <property name="minimumSize">
@@ -815,6 +989,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>10 battery</string>
@@ -832,6 +1010,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -844,6 +1026,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_23">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_75">
               <property name="minimumSize">
@@ -851,6 +1036,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>11 battery</string>
@@ -868,6 +1057,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -880,6 +1073,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_24">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_77">
               <property name="minimumSize">
@@ -887,6 +1083,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>12 battery</string>
@@ -904,6 +1104,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -920,6 +1124,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_25">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_25">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_79">
               <property name="minimumSize">
@@ -927,6 +1134,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>13 battery</string>
@@ -944,6 +1155,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -956,6 +1171,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_26">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_81">
               <property name="minimumSize">
@@ -963,6 +1181,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>14 battery</string>
@@ -980,6 +1202,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -992,6 +1218,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_27">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_83">
               <property name="minimumSize">
@@ -999,6 +1228,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>15 battery</string>
@@ -1016,6 +1249,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -1028,6 +1265,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_28">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_85">
               <property name="minimumSize">
@@ -1035,6 +1275,10 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
               </property>
               <property name="text">
                <string>16 battery</string>
@@ -1052,6 +1296,10 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);
+color: blue;</string>
+              </property>
               <property name="text">
                <string>3.7V</string>
               </property>
@@ -1064,6 +1312,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_29">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_87">
               <property name="minimumSize">
@@ -1071,6 +1322,9 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
               </property>
               <property name="text">
                <string/>
@@ -1088,6 +1342,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -1100,6 +1357,9 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_30">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_89">
               <property name="minimumSize">
@@ -1107,6 +1367,9 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
               </property>
               <property name="text">
                <string/>
@@ -1123,6 +1386,9 @@
                 <width>70</width>
                 <height>0</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(242, 242, 242);</string>
               </property>
               <property name="text">
                <string/>
@@ -1154,20 +1420,25 @@
       <widget class="QWidget" name="widget_5" native="true">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>20</y>
+         <x>10</x>
+         <y>9</y>
          <width>85</width>
          <height>114</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-image: url(:/res/wendu.png);
+            background-repeat: no-repeat;
+            background-position: center;</string>
+       </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>20</y>
-         <width>241</width>
-         <height>81</height>
+         <x>98</x>
+         <y>11</y>
+         <width>171</width>
+         <height>61</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -1372,6 +1643,9 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: green;</string>
+       </property>
        <property name="text">
         <string>保护信息</string>
        </property>
@@ -1379,11 +1653,14 @@
       <widget class="QLabel" name="label_110">
        <property name="geometry">
         <rect>
-         <x>190</x>
+         <x>187</x>
          <y>10</y>
          <width>51</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: red;</string>
        </property>
        <property name="text">
         <string>告警信息</string>
@@ -1442,7 +1719,7 @@
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>310</x>
@@ -1499,7 +1776,7 @@
        <string>写入</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1516,7 +1793,7 @@
            <property name="title">
             <string>电池参数</string>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>13</x>
@@ -1548,7 +1825,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="comboBox"/>
+                <widget class="QComboBox" name="batteryTypeComboBox"/>
                </item>
               </layout>
              </item>
@@ -1662,7 +1939,7 @@
            <property name="title">
             <string>电流参数</string>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>20</x>
@@ -2067,7 +2344,7 @@
               <x>20</x>
               <y>30</y>
               <width>211</width>
-              <height>81</height>
+              <height>83</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_39">
@@ -2157,21 +2434,14 @@
        </item>
       </layout>
      </widget>
-     <zorder>groupBox_6</zorder>
-     <zorder>checkBox</zorder>
-     <zorder>comboBox</zorder>
-     <zorder>groupBox_8</zorder>
-     <zorder>groupBox_9</zorder>
-     <zorder>groupBox_10</zorder>
-     <zorder>groupBox_11</zorder>
-     <zorder>groupBox_12</zorder>
+     <zorder>layoutWidget</zorder>
      <zorder>pushButton_4</zorder>
     </widget>
     <widget class="QWidget" name="portSetTab">
      <attribute name="title">
       <string>端口设置</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>110</x>
@@ -2206,7 +2476,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_3"/>
+          <widget class="QComboBox" name="botelvComboBox"/>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_5">
@@ -2397,7 +2667,7 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>

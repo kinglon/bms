@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui serialbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,6 +19,7 @@ SOURCES += \
     datamodel.cpp \
     main.cpp \
     mainwindow.cpp \
+    mymodbusclient.cpp \
     settingmanager.cpp \
     uiutil.cpp
 
@@ -33,6 +34,7 @@ HEADERS += \
     datamanager.h \
     datamodel.h \
     mainwindow.h \
+    mymodbusclient.h \
     settingmanager.h \
     uiutil.h
 

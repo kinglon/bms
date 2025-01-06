@@ -18,7 +18,17 @@ MyModbusClient::MyModbusClient(QObject *parent)
         {
             qInfo("modbus disconnected");
         }
-    });
+    });    
+}
+
+void MyModbusClient::startConnect()
+{
+    static bool first = true;
+    if (!first)
+    {
+        return;
+    }
+    first = false;
 
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [this]() {
@@ -79,6 +89,8 @@ void MyModbusClient::sendData(const QString& context, QModbusPdu::FunctionCode f
     QModbusRequest request(functionCode, data);
     if (auto *reply = m_modbusDevice.sendRawRequest(request, m_serverAddress))
     {
+        m_sendCount++;
+
         if (!reply->isFinished())
         {
             m_reply2Context[reply] = context;
@@ -118,6 +130,8 @@ void MyModbusClient::onReadReady()
 
     if (reply->error() == QModbusDevice::NoError)
     {
+        m_recvCount++;
+
         QModbusResponse response = reply->rawResult();
         if (m_enableDebug)
         {

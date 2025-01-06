@@ -18,14 +18,22 @@ public:
 
     void setBaud(int baud) { m_baud = baud; }
 
+    void startConnect();
+
     void setServerAddress(unsigned char address) { m_serverAddress = address; }
 
     void sendData(const QString& context, QModbusPdu::FunctionCode functionCode, const QByteArray& data);
 
+    int getSendCount() { return m_sendCount; }
+
+    int getRecvCount() { return m_recvCount; }
+
+    bool isConnected() { return m_modbusDevice.state() == QModbusClient::ConnectedState; }
+
 private:
     void modbusConnect();
 
-signals:
+signals:    
     void recvData(const QString& context, bool success, const QByteArray& data);
 
 private slots:
@@ -41,6 +49,10 @@ private:
     QMap<QModbusReply *, QString> m_reply2Context;
 
     bool m_enableDebug = false;
+
+    // 统计发送接收数据包个数
+    int m_sendCount = 0;
+    int m_recvCount = 0;
 };
 
 #endif // MYMODBUSCLIENT_H

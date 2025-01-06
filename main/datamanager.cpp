@@ -9,6 +9,30 @@
 
 DataManager::DataManager()
 {
+    m_params.append(ParamItem(PARAM_NAME_CHARGE_MOS_SWITCH,
+                              PARAM_VALUE_TYPE_INT,
+                              SWITCH_UNKNOWN, // value
+                              -100, // min value
+                              100, // max value
+                              "",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_FANGDIAN_MOS_SWITCH,
+                              PARAM_VALUE_TYPE_INT,
+                              SWITCH_UNKNOWN, // value
+                              -100, // min value
+                              100, // max value
+                              "",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_JUNHENG_SWITCH,
+                              PARAM_VALUE_TYPE_INT,
+                              SWITCH_UNKNOWN, // value
+                              -100, // min value
+                              100, // max value
+                              "",  // unit
+                              false)); // local save
+
     m_params.append(ParamItem(PARAM_NAME_BATTERY_STATUS,
                               PARAM_VALUE_TYPE_INT,
                               STATUS_UNKNOWN, // value
@@ -16,6 +40,73 @@ DataManager::DataManager()
                               100, // max value
                               "",  // unit
                               false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_JUNHENG_STATUS,
+                              PARAM_VALUE_TYPE_INT,
+                              STATUS_UNKNOWN, // value
+                              -100, // min value
+                              100, // max value
+                              "",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_SOC,
+                              PARAM_VALUE_TYPE_INT,
+                              20, // value
+                              0, // min value
+                              100, // max value
+                              "%",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_BATTERY_TOTAL_DIANYA,
+                              PARAM_VALUE_TYPE_FLOAT,
+                              60000, // value
+                              0, // min value
+                              10000000, // max value
+                              "V",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_BATTERY_DIANLIU,
+                              PARAM_VALUE_TYPE_FLOAT,
+                              5000, // value
+                              0, // min value
+                              10000000, // max value
+                              "A",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_MAX_DIANYA,
+                              PARAM_VALUE_TYPE_FLOAT,
+                              3780, // value
+                              0, // min value
+                              10000000, // max value
+                              "V",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_MIN_DIANYA,
+                              PARAM_VALUE_TYPE_FLOAT,
+                              3570, // value
+                              0, // min value
+                              10000000, // max value
+                              "V",  // unit
+                              false)); // local save
+
+    m_params.append(ParamItem(PARAM_NAME_TOTAL_LOOP,
+                              PARAM_VALUE_TYPE_FLOAT,
+                              50000, // value
+                              0, // min value
+                              10000000, // max value
+                              "AH",  // unit
+                              false)); // local save
+
+    for (int i=1; i<=BATTERY_COUNT; i++)
+    {
+        m_params.append(ParamItem(QString(PARAM_NAME_BATTERY_DIANYA_PREFIX)+QString::number(i),
+                                  PARAM_VALUE_TYPE_FLOAT,
+                                  3700, // value
+                                  0, // min value
+                                  10000000, // max value
+                                  "V",  // unit
+                                  false)); // local save
+    }
 
     m_params.append(ParamItem(PARAM_NAME_BATTERY_CHUANSHU,
                               PARAM_VALUE_TYPE_INT,

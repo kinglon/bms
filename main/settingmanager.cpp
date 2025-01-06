@@ -38,16 +38,15 @@ void SettingManager::load()
     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
     QJsonObject root = jsonDocument.object();
 
-    if (root.contains("log_level"))
-    {
-        m_logLevel = root["log_level"].toInt();
-    }
+    m_logLevel = root["log_level"].toInt();
+    m_baud = root["baud"].toInt();
 }
 
 void SettingManager::save()
 {
     QJsonObject root;
     root["log_level"] = m_logLevel;
+    root["baud"] = m_baud;
 
     QJsonDocument jsonDocument(root);
     QByteArray jsonData = jsonDocument.toJson(QJsonDocument::Indented);

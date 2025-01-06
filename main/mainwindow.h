@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "mymodbusclient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,9 +22,22 @@ private:
     void updateCtrlDatas();
 
 private slots:
+    // 每隔一秒触发一次
+    void onMainTimer();
+
+    void onRecvData(const QString& context, bool success, const QByteArray& data);
+
+    void onChargeMosButtonClicked();
+
+    void onFangdianMosButtonClicked();
+
+    void onJunhengButtonClicked();
+
     void onWriteParamButtonClicked();
 
 private:
     Ui::MainWindow *ui;
+
+    MyModbusClient m_modbusClient;
 };
 #endif // MAINWINDOW_H

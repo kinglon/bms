@@ -15,6 +15,7 @@ SOURCES += \
     Utility/ImPath.cpp \
     Utility/LogBuffer.cpp \
     Utility/LogUtil.cpp \
+    batterywidget.cpp \
     datamanager.cpp \
     datamodel.cpp \
     main.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     Utility/LogBuffer.h \
     Utility/LogMacro.h \
     Utility/LogUtil.h \
+    batterywidget.h \
     datamanager.h \
     datamodel.h \
     mainwindow.h \

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>电池助手</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -42,7 +42,7 @@
       <property name="title">
        <string/>
       </property>
-      <widget class="QWidget" name="widget" native="true">
+      <widget class="QWidget" name="batteryVolumnWidget" native="true">
        <property name="geometry">
         <rect>
          <x>200</x>
@@ -198,7 +198,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_10">
+         <widget class="QLabel" name="socLabel">
           <property name="text">
            <string>0%</string>
           </property>
@@ -260,7 +260,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_42">
+             <widget class="QLabel" name="batteryTotalDianyaLabel">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -307,7 +307,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_45">
+             <widget class="QLabel" name="batteryDianliuLabel">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -354,7 +354,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_48">
+             <widget class="QLabel" name="maxDianyaLabel">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -405,7 +405,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_50">
+             <widget class="QLabel" name="minDianyaLabel">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -452,7 +452,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_52">
+             <widget class="QLabel" name="totalLoopLabel">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -573,7 +573,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_54">
+             <widget class="QLabel" name="batteryDianya1Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -620,7 +620,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_56">
+             <widget class="QLabel" name="batteryDianya2Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -667,7 +667,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_64">
+             <widget class="QLabel" name="batteryDianya3Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -714,7 +714,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_66">
+             <widget class="QLabel" name="batteryDianya4Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -761,7 +761,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_70">
+             <widget class="QLabel" name="batteryDianya5Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -808,7 +808,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_58">
+             <widget class="QLabel" name="batteryDianya6Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -862,7 +862,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_60">
+             <widget class="QLabel" name="batteryDianya7Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -909,7 +909,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_62">
+             <widget class="QLabel" name="batteryDianya8Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -956,7 +956,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_72">
+             <widget class="QLabel" name="batteryDianya9Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1003,7 +1003,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_74">
+             <widget class="QLabel" name="batteryDianya10Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1050,7 +1050,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_76">
+             <widget class="QLabel" name="batteryDianya11Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1097,7 +1097,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_78">
+             <widget class="QLabel" name="batteryDianya12Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1148,7 +1148,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_80">
+             <widget class="QLabel" name="batteryDianya13Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1195,7 +1195,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_82">
+             <widget class="QLabel" name="batteryDianya14Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1242,7 +1242,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_84">
+             <widget class="QLabel" name="batteryDianya15Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1289,7 +1289,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_86">
+             <widget class="QLabel" name="batteryDianya16Label">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1679,7 +1679,7 @@ color: blue;</string>
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_111">
+      <widget class="QLabel" name="protectInfoLabel">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -2421,7 +2421,7 @@ color: blue;</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget8">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2480,7 +2480,7 @@ color: blue;</string>
        </item>
       </layout>
      </widget>
-     <zorder>layoutWidget</zorder>
+     <zorder>layoutWidget8</zorder>
      <zorder>layoutWidget6</zorder>
     </widget>
     <widget class="QWidget" name="portSetTab">

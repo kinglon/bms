@@ -16,6 +16,9 @@
 // 参数没有值
 #define PARAM_VALUE_NOT_SETTING  -100
 
+// 浮点数放大倍数
+#define FLOAT_SCALE_FACTOR 1000
+
 class ParamItem
 {
 public:
@@ -37,9 +40,6 @@ public:
 
     // 标志是否要保存到配置文件
     bool m_localSave = false;
-
-private:
-    float m_scaleFactor = 1000.0f;  // 放大因子
 
 public:
     ParamItem(const QString& name, int valueType, int value, int minValue, int maxValue, const QString& unit, bool localSave)
@@ -63,7 +63,7 @@ public:
         if (m_valueType == PARAM_VALUE_TYPE_FLOAT)
         {
             // 展示给用户，还原为真实数据
-            float value = m_value / m_scaleFactor;
+            float value = m_value / FLOAT_SCALE_FACTOR;
             return QString::number(value, 'f', 3) + m_unit;
         }
         else
@@ -78,8 +78,8 @@ public:
         {
             // 展示给用户，还原为真实数据
             return QString::fromWCharArray(L"[%1, %2]").arg(
-                        QString::number(m_minValue/m_scaleFactor, 'f', 3),
-                        QString::number(m_maxValue/m_scaleFactor, 'f', 3));
+                        QString::number(m_minValue/FLOAT_SCALE_FACTOR, 'f', 3),
+                        QString::number(m_maxValue/FLOAT_SCALE_FACTOR, 'f', 3));
         }
         else
         {
@@ -96,7 +96,7 @@ public:
         if (m_valueType == PARAM_VALUE_TYPE_FLOAT)
         {
             // 用户输入是真实数据，需要放大
-            valueInt = (int)(value.toFloat(&ok) * m_scaleFactor);
+            valueInt = (int)(value.toFloat(&ok) * FLOAT_SCALE_FACTOR);
         }
         else
         {
@@ -141,13 +141,13 @@ QString getStringFromSwitch(int switchValue);
 
 #define PARAM_NAME_SOC   "soc"     // 电池电量
 
-#define PARAM_NAME_BATTERY_TOTAL_DIANYA  "battery_total_dianya"  // 电池总电压
-#define PARAM_NAME_BATTERY_DIANLIU  "battery_dianliu"  // 电池电流
-#define PARAM_NAME_MAX_DIANYA  "max_dianya"  // 最高电压
-#define PARAM_NAME_MIN_DIANYA  "max_dianya"  // 最低电压
-#define PARAM_NAME_TOTAL_LOOP  "total_loop"  // 总循环
+#define PARAM_NAME_BATTERY_TOTAL_DIANYA  "batteryTotalDianya"  // 电池总电压
+#define PARAM_NAME_BATTERY_DIANLIU  "batteryDianliu"  // 电池电流
+#define PARAM_NAME_MAX_DIANYA  "maxDianya"  // 最高电压
+#define PARAM_NAME_MIN_DIANYA  "minDianya"  // 最低电压
+#define PARAM_NAME_TOTAL_LOOP  "totalLoop"  // 总循环
 
-#define PARAM_NAME_BATTERY_DIANYA_PREFIX  "battery_dianya"  // 电池电压前缀，总共16节，尾部从1到16
+#define PARAM_NAME_BATTERY_DIANYA_PREFIX  "batteryDianya"  // 电池电压前缀，总共16节，尾部从1到16
 #define BATTERY_COUNT 16  // 16节电池
 
 #define PARAM_NAME_BATTERY_CHUANSHU   "batteryChuanshu"     // 电池串数

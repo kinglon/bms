@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mymodbusclient.h"
+#include "batterywidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,5 +40,7 @@ private:
     Ui::MainWindow *ui;
 
     MyModbusClient m_modbusClient;
+
+    BatteryWidget* m_batteryWidget = nullptr;
 };
 #endif // MAINWINDOW_H

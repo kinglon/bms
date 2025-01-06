@@ -7,12 +7,17 @@
 #include "settingmanager.h"
 #include "Utility/LogUtil.h"
 
+
+#define MAKE_INT(byte1, byte2) ((int)((byte1<<8) + byte2))
+#define MAKE_INT_4(byte1, byte2, byte3, byte4) ((int)((byte1<<24) + (byte2<<16) + (byte3<<8) + byte4))
+
 // context定义
 #define CONTEXT_READ_SWITCH_STATUS  "read_switch_status"  // 读取充电MOS、放电MOS、均衡开关的状态
 #define CONTEXT_WRITE_CHARGE_MOS_SWITCH  "write_charge_mos_switch"  // 设置充电MOS开关的状态
 #define CONTEXT_WRITE_FANGDIAN_MOS_SWITCH  "write_fangdian_mos_switch"  // 设置放电MOS开关的状态
 #define CONTEXT_WRITE_JUNHENG_SWITCH  "write_junheng_switch"  // 设置均衡开关的状态
 #define CONTEXT_READ_BATTERY_JUNHENG_STATUS  "read_battery_junheng_status"  // 读取电池和均衡的状态
+#define CONTEXT_READ_DIANYA_DIANLIU_DATA  "read_dianya_dianliu_data"  // 读取电压电流数据
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -51,6 +56,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::initCtrls()
 {
+    m_batteryWidget = new BatteryWidget(ui->groupBox);
+    m_batteryWidget->setGeometry(ui->batteryVolumnWidget->geometry());
+    ui->batteryVolumnWidget->setVisible(false);
+
     ui->batteryTypeComboBox->addItem(QString::fromWCharArray(L"三元锂电池"), BATTERY_TYPE_SANYUAN);
     ui->batteryTypeComboBox->addItem(QString::fromWCharArray(L"磷酸铁锂电池"), BATTERY_TYPE_LINSUANTAI);
     ui->batteryTypeComboBox->addItem(QString::fromWCharArray(L"锰酸锂电池"), BATTERY_TYPE_MENGSUAN);
@@ -125,6 +134,43 @@ void MainWindow::updateCtrlDatas()
     {
         ui->junhengButton->setText(QString::fromWCharArray(L"打开均衡"));
     }
+
+    // 更新电池电量
+    if (m_batteryWidget)
+    {
+        value = DataManager::getInstance()->getParamByName(PARAM_NAME_SOC)->m_value;
+        m_batteryWidget->setBatteryValue(value);
+    }
+
+    // 保护信息
+    bool qianYa = false; // 欠压
+    bool guoYa = false; // 过压
+    for (int i=1; i<=BATTERY_COUNT; i++)
+    {
+        value = DataManager::getInstance()->getParamByName(QString(PARAM_NAME_BATTERY_DIANYA_PREFIX)+QString::number(i))->m_value;
+        if (value > (int)(4.2f*FLOAT_SCALE_FACTOR))
+        {
+            guoYa = true;
+        }
+        else if (value < (int)(2.75f*FLOAT_SCALE_FACTOR))
+        {
+            qianYa = true;
+        }
+    }
+    QString protectInfo;
+    if (qianYa)
+    {
+        protectInfo = QString::fromWCharArray(L"单体欠压保护");
+    }
+    if (guoYa)
+    {
+        if (!protectInfo.isEmpty())
+        {
+            protectInfo += "\n";
+        }
+        protectInfo += QString::fromWCharArray(L"单体过压保护");
+    }
+    ui->protectInfoLabel->setText(protectInfo);
 }
 
 void MainWindow::onMainTimer()
@@ -146,6 +192,15 @@ void MainWindow::onMainTimer()
         datas.append((char)0x00);
         datas.append((char)0x02);
         m_modbusClient.sendData(CONTEXT_READ_BATTERY_JUNHENG_STATUS, QModbusPdu::ReadDiscreteInputs, datas);
+
+        // 读取电压电流数据
+        datas.clear();
+        datas.append((char)0x75);
+        datas.append((char)0x31);
+        datas.append((char)0x00);
+        datas.append((char)0x18);
+        m_modbusClient.sendData(CONTEXT_READ_DIANYA_DIANLIU_DATA, QModbusPdu::ReadInputRegisters, datas);
+
     }
 }
 
@@ -204,6 +259,41 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
             bool junhengException = data[5] == 0x00;
             DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_STATUS, batteryException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_STATUS, junhengException?STATUS_EXCEPTION:STATUS_GOOD);
+            updateCtrlDatas();
+        }
+    }
+    else if (context == CONTEXT_READ_DIANYA_DIANLIU_DATA)
+    {
+        // 读取电压电流数据
+        if (success && data.length() >= 48)
+        {
+            int pos = 2;
+            int soc = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int totalDianYa = MAKE_INT_4(data[pos], data[pos+1], data[pos+2], data[pos+3]);
+            pos += 4;
+            int dianLiu = MAKE_INT_4(data[pos], data[pos+1], data[pos+2], data[pos+3]);
+            pos += 4;
+            int maxDianYa = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int minDianYa = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int totalLoop = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            DataManager::getInstance()->setParamValue(PARAM_NAME_SOC, soc);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_TOTAL_DIANYA, totalDianYa);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_DIANLIU, dianLiu);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_MAX_DIANYA, maxDianYa);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_MIN_DIANYA, minDianYa);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_TOTAL_LOOP, totalLoop);
+
+            for (int i=1; i<=BATTERY_COUNT; i++)
+            {
+                int batteryDianYa = MAKE_INT(data[pos], data[pos+1]);
+                pos += 2;
+                DataManager::getInstance()->setParamValue(QString(PARAM_NAME_BATTERY_DIANYA_PREFIX)+QString::number(i),
+                                                          batteryDianYa);
+            }
             updateCtrlDatas();
         }
     }

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="batteryStatusTab">
      <attribute name="title">
@@ -1469,7 +1469,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_92">
+             <widget class="QLabel" name="mosTempLabel">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -1508,7 +1508,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_96">
+             <widget class="QLabel" name="junhengTempLabel">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -1551,7 +1551,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_98">
+             <widget class="QLabel" name="t1TempLabel">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -1590,7 +1590,7 @@ color: blue;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_100">
+             <widget class="QLabel" name="t2TempLabel">
               <property name="minimumSize">
                <size>
                 <width>35</width>
@@ -1699,7 +1699,7 @@ color: blue;</string>
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="label_112">
+      <widget class="QLabel" name="warningInfoLabel">
        <property name="geometry">
         <rect>
          <x>150</x>
@@ -1793,7 +1793,7 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_39">
                <item>
-                <widget class="QCheckBox" name="checkBox">
+                <widget class="QCheckBox" name="batteryTypeCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>100</width>
@@ -1864,56 +1864,56 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_52">
                <item>
-                <widget class="QCheckBox" name="checkBox_13">
+                <widget class="QCheckBox" name="dantiGuoyaCheckBox">
                  <property name="text">
                   <string>单体过压保护 V</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_8"/>
+                <widget class="QLineEdit" name="dantiGuoyaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_53">
                <item>
-                <widget class="QCheckBox" name="checkBox_15">
+                <widget class="QCheckBox" name="zongGuoyaCheckBox">
                  <property name="text">
                   <string>总压过压保护 V</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_13"/>
+                <widget class="QLineEdit" name="zongGuoyaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_54">
                <item>
-                <widget class="QCheckBox" name="checkBox_16">
+                <widget class="QCheckBox" name="dantiQianyaCheckBox">
                  <property name="text">
                   <string>单体欠压保护 V</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_14"/>
+                <widget class="QLineEdit" name="dantiQianyaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_55">
                <item>
-                <widget class="QCheckBox" name="checkBox_17">
+                <widget class="QCheckBox" name="zongQianyaCheckBox">
                  <property name="text">
                   <string>总压欠压保护 V</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_15"/>
+                <widget class="QLineEdit" name="zongQianyaEdit"/>
                </item>
               </layout>
              </item>
@@ -1939,7 +1939,7 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_81">
                <item>
-                <widget class="QCheckBox" name="checkBox_37">
+                <widget class="QCheckBox" name="chargeGuoliuProtectCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>140</width>
@@ -1958,14 +1958,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_38"/>
+                <widget class="QLineEdit" name="chargeGuoliuProtectEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_44">
                <item>
-                <widget class="QCheckBox" name="checkBox_6">
+                <widget class="QCheckBox" name="fangdianGuoliuProtectCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>140</width>
@@ -1984,14 +1984,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_4"/>
+                <widget class="QLineEdit" name="fangdianGuoliuProtectEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_45">
                <item>
-                <widget class="QCheckBox" name="checkBox_7">
+                <widget class="QCheckBox" name="duanluProtectCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>140</width>
@@ -2010,14 +2010,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_5"/>
+                <widget class="QLineEdit" name="duanluProtectEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_46">
                <item>
-                <widget class="QCheckBox" name="checkBox_8">
+                <widget class="QCheckBox" name="fangdianGuoliuWarningCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>140</width>
@@ -2036,14 +2036,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_6"/>
+                <widget class="QLineEdit" name="fangdianGuoliuWarningEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_47">
                <item>
-                <widget class="QCheckBox" name="checkBox_9">
+                <widget class="QCheckBox" name="twoFangdianGuoliuProtectCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>140</width>
@@ -2062,7 +2062,7 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_7"/>
+                <widget class="QLineEdit" name="twoFangdianGuoliuProtectEdit"/>
                </item>
               </layout>
              </item>
@@ -2092,7 +2092,7 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_60">
                <item>
-                <widget class="QCheckBox" name="checkBox_22">
+                <widget class="QCheckBox" name="mosTemp2CheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>80</width>
@@ -2111,14 +2111,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_20"/>
+                <widget class="QLineEdit" name="mosTemp2Edit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_61">
                <item>
-                <widget class="QCheckBox" name="checkBox_23">
+                <widget class="QCheckBox" name="junhengTemp2CheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>80</width>
@@ -2137,14 +2137,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_21"/>
+                <widget class="QLineEdit" name="junhengTemp2Edit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_62">
                <item>
-                <widget class="QCheckBox" name="checkBox_24">
+                <widget class="QCheckBox" name="t1Temp2CheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>80</width>
@@ -2163,14 +2163,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_22"/>
+                <widget class="QLineEdit" name="t1Temp2Edit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_63">
                <item>
-                <widget class="QCheckBox" name="checkBox_25">
+                <widget class="QCheckBox" name="t2Temp2CheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>80</width>
@@ -2189,7 +2189,7 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_23"/>
+                <widget class="QLineEdit" name="t2Temp2Edit"/>
                </item>
               </layout>
              </item>
@@ -2215,7 +2215,7 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_71">
                <item>
-                <widget class="QCheckBox" name="checkBox_33">
+                <widget class="QCheckBox" name="junhengJixianDianyaCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>
@@ -2234,14 +2234,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_31"/>
+                <widget class="QLineEdit" name="junhengJixianDianyaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_72">
                <item>
-                <widget class="QCheckBox" name="checkBox_34">
+                <widget class="QCheckBox" name="junhengQidongDianyaCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>
@@ -2260,14 +2260,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_32"/>
+                <widget class="QLineEdit" name="junhengQidongDianyaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_73">
                <item>
-                <widget class="QCheckBox" name="checkBox_35">
+                <widget class="QCheckBox" name="junhengQidongYachaCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>
@@ -2286,14 +2286,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_33"/>
+                <widget class="QLineEdit" name="junhengQidongYachaEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_74">
                <item>
-                <widget class="QCheckBox" name="checkBox_36">
+                <widget class="QCheckBox" name="junhengJieSuYachaCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>
@@ -2312,7 +2312,7 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_34"/>
+                <widget class="QLineEdit" name="junhengJieSuYachaEdit"/>
                </item>
               </layout>
              </item>
@@ -2338,7 +2338,7 @@ color: blue;</string>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_68">
                <item>
-                <widget class="QCheckBox" name="checkBox_30">
+                <widget class="QCheckBox" name="chongdianGuoliuBaohuYansiCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>145</width>
@@ -2357,14 +2357,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_28"/>
+                <widget class="QLineEdit" name="chongdianGuoliuBaohuYansiEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_69">
                <item>
-                <widget class="QCheckBox" name="checkBox_31">
+                <widget class="QCheckBox" name="fangdianGuoliuBaohuYansiCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>145</width>
@@ -2383,14 +2383,14 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_29"/>
+                <widget class="QLineEdit" name="fangdianGuoliuBaohuYansiEdit"/>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_70">
                <item>
-                <widget class="QCheckBox" name="checkBox_32">
+                <widget class="QCheckBox" name="duanluBaohuYansiCheckBox">
                  <property name="minimumSize">
                   <size>
                    <width>145</width>
@@ -2409,7 +2409,7 @@ color: blue;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_30"/>
+                <widget class="QLineEdit" name="duanluBaohuYansiEdit"/>
                </item>
               </layout>
              </item>
@@ -2445,14 +2445,14 @@ color: blue;</string>
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="writeParamButton_3">
+        <widget class="QPushButton" name="selectAllButton">
          <property name="text">
           <string>全选</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="writeParamButton_2">
+        <widget class="QPushButton" name="unselectAllButton">
          <property name="text">
           <string>全不选</string>
          </property>
@@ -2525,7 +2525,7 @@ color: blue;</string>
           <widget class="QComboBox" name="botelvComboBox"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="connectButton">
            <property name="minimumSize">
             <size>
              <width>90</width>
@@ -2570,10 +2570,10 @@ color: blue;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_35"/>
+          <widget class="QLineEdit" name="softwarePathEdit"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="selectSoftwarePathButton">
            <property name="minimumSize">
             <size>
              <width>90</width>
@@ -2618,10 +2618,14 @@ color: blue;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_36"/>
+          <widget class="QLineEdit" name="softVersionEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_7">
+          <widget class="QPushButton" name="readSoftVersionButton">
            <property name="minimumSize">
             <size>
              <width>90</width>
@@ -2666,10 +2670,14 @@ color: blue;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_37"/>
+          <widget class="QLineEdit" name="hardwareVersionEdit">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="upgradeButton">
            <property name="minimumSize">
             <size>
              <width>90</width>
@@ -2703,7 +2711,7 @@ color: blue;</string>
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_117">
+        <widget class="QLabel" name="connectInfoLabel">
          <property name="text">
           <string>连接状态：未连接，发送数据包：0，接受数据包：0</string>
          </property>

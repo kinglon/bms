@@ -16,13 +16,16 @@ SOURCES += \
     Utility/LogBuffer.cpp \
     Utility/LogUtil.cpp \
     batterywidget.cpp \
+    crc32util.cpp \
     datamanager.cpp \
     datamodel.cpp \
     main.cpp \
     mainwindow.cpp \
     mymodbusclient.cpp \
+    myprogressdialog.cpp \
     settingmanager.cpp \
-    uiutil.cpp
+    uiutil.cpp \
+    upgradecontroller.cpp
 
 HEADERS += \
     Utility/DumpUtil.h \
@@ -33,12 +36,16 @@ HEADERS += \
     Utility/LogMacro.h \
     Utility/LogUtil.h \
     batterywidget.h \
+    crc32util.h \
     datamanager.h \
     datamodel.h \
     mainwindow.h \
     mymodbusclient.h \
+    myprogressdialog.h \
+    publicdef.h \
     settingmanager.h \
-    uiutil.h
+    uiutil.h \
+    upgradecontroller.h
 
 FORMS += \
     mainwindow.ui

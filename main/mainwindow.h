@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "mymodbusclient.h"
 #include "batterywidget.h"
+#include "myprogressdialog.h"
+#include "upgradecontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +24,11 @@ private:
 
     void updateCtrlDatas();
 
+    // 更新保护/警告信息
+    void updateProtectWarningInfo();
+
+    void updateTemperatureInfo();
+
 private slots:
     // 每隔一秒触发一次
     void onMainTimer();
@@ -34,7 +41,19 @@ private slots:
 
     void onJunhengButtonClicked();
 
+    void onSelectAllButtonClicked();
+
+    void onUnSelectAllButtonClicked();
+
     void onWriteParamButtonClicked();
+
+    void onConnectButtonClicked();
+
+    void onSelectSoftwarePathButtonClicked();
+
+    void onReadSoftwareVersionButtonClicked();
+
+    void onUpgradeButtonClicked();
 
 private:
     Ui::MainWindow *ui;
@@ -42,5 +61,12 @@ private:
     MyModbusClient m_modbusClient;
 
     BatteryWidget* m_batteryWidget = nullptr;
+
+    // 上一次温度更新的时间
+    qint64 m_lastTemperatureUpdateTime = 0;
+
+    MyProgressDialog* m_progressDlg = nullptr;
+
+    UpgradeController* m_upgradeController = nullptr;
 };
 #endif // MAINWINDOW_H

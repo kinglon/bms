@@ -6,7 +6,8 @@ MyModbusClient::MyModbusClient(QObject *parent)
     : QObject{parent}
 {
     connect(&m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
-        qCritical(m_modbusDevice.errorString().toStdString().c_str());
+        qCritical("modbus error: %s", m_modbusDevice.errorString().toStdString().c_str());
+
     });
 
     connect(&m_modbusDevice, &QModbusClient::stateChanged, [](int state) {

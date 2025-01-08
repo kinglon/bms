@@ -6,18 +6,10 @@
 #include <QTimer>
 #include "settingmanager.h"
 #include "Utility/LogUtil.h"
+#include <QDateTime>
+#include <QFileDialog>
+#include "publicdef.h"
 
-
-#define MAKE_INT(byte1, byte2) ((int)((byte1<<8) + byte2))
-#define MAKE_INT_4(byte1, byte2, byte3, byte4) ((int)((byte1<<24) + (byte2<<16) + (byte3<<8) + byte4))
-
-// context定义
-#define CONTEXT_READ_SWITCH_STATUS  "read_switch_status"  // 读取充电MOS、放电MOS、均衡开关的状态
-#define CONTEXT_WRITE_CHARGE_MOS_SWITCH  "write_charge_mos_switch"  // 设置充电MOS开关的状态
-#define CONTEXT_WRITE_FANGDIAN_MOS_SWITCH  "write_fangdian_mos_switch"  // 设置放电MOS开关的状态
-#define CONTEXT_WRITE_JUNHENG_SWITCH  "write_junheng_switch"  // 设置均衡开关的状态
-#define CONTEXT_READ_BATTERY_JUNHENG_STATUS  "read_battery_junheng_status"  // 读取电池和均衡的状态
-#define CONTEXT_READ_DIANYA_DIANLIU_DATA  "read_dianya_dianliu_data"  // 读取电压电流数据
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,11 +61,45 @@ void MainWindow::initCtrls()
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"9600"));
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"19200"));
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"115200"));
+    ui->botelvComboBox->setCurrentText(QString::number(SettingManager::getInstance()->m_baud));
+
+    // 通过参数名称查找控件，并设置值
+    for (const auto& paramItem : DataManager::getInstance()->m_params)
+    {
+        if (!paramItem.m_localSave)
+        {
+            continue;
+        }
+
+        QList<QLabel *> labels = findChildren<QLabel *>(paramItem.m_name+"Label");
+        if (labels.size() > 0)
+        {
+            labels[0]->setText(paramItem.getValueString());
+            continue;
+        }
+
+        QList<QLineEdit *> edits = findChildren<QLineEdit *>(paramItem.m_name+"Edit");
+        if (edits.size() > 0)
+        {
+            edits[0]->setText(paramItem.getValueString());
+            continue;
+        }
+    }
+
+    // 电池类型
+    int value = DataManager::getInstance()->getParamByName(PARAM_NAME_BATTERY_TYPE)->m_value;
+    ui->batteryTypeComboBox->setCurrentIndex(value-BATTERY_TYPE_MIN);
 
     connect(ui->chargeMosButton, &QPushButton::clicked, this, &MainWindow::onChargeMosButtonClicked);
     connect(ui->fangdianMosButton, &QPushButton::clicked, this, &MainWindow::onFangdianMosButtonClicked);
     connect(ui->junhengButton, &QPushButton::clicked, this, &MainWindow::onJunhengButtonClicked);
+    connect(ui->selectAllButton, &QPushButton::clicked, this, &MainWindow::onSelectAllButtonClicked);
+    connect(ui->unselectAllButton, &QPushButton::clicked, this, &MainWindow::onUnSelectAllButtonClicked);
     connect(ui->writeParamButton, &QPushButton::clicked, this, &MainWindow::onWriteParamButtonClicked);
+    connect(ui->connectButton, &QPushButton::clicked, this, &MainWindow::onConnectButtonClicked);
+    connect(ui->selectSoftwarePathButton, &QPushButton::clicked, this, &MainWindow::onSelectSoftwarePathButtonClicked);
+    connect(ui->readSoftVersionButton, &QPushButton::clicked, this, &MainWindow::onReadSoftwareVersionButtonClicked);
+    connect(ui->upgradeButton, &QPushButton::clicked, this, &MainWindow::onUpgradeButtonClicked);
 }
 
 void MainWindow::updateCtrlDatas()
@@ -81,6 +107,12 @@ void MainWindow::updateCtrlDatas()
     // 通过参数名称查找控件，并设置值
     for (const auto& paramItem : DataManager::getInstance()->m_params)
     {
+        if (paramItem.m_localSave)
+        {
+            // 写入参数初始化时更新就可以
+            continue;
+        }
+
         QList<QLabel *> labels = findChildren<QLabel *>(paramItem.m_name+"Label");
         if (labels.size() > 0)
         {
@@ -142,12 +174,21 @@ void MainWindow::updateCtrlDatas()
         m_batteryWidget->setBatteryValue(value);
     }
 
+    // 更新保护/警告信息
+    updateProtectWarningInfo();
+
+    // 更新温度信息
+    updateTemperatureInfo();
+}
+
+void MainWindow::updateProtectWarningInfo()
+{
     // 保护信息
     bool qianYa = false; // 欠压
     bool guoYa = false; // 过压
     for (int i=1; i<=BATTERY_COUNT; i++)
     {
-        value = DataManager::getInstance()->getParamByName(QString(PARAM_NAME_BATTERY_DIANYA_PREFIX)+QString::number(i))->m_value;
+        int value = DataManager::getInstance()->getParamByName(QString(PARAM_NAME_BATTERY_DIANYA_PREFIX)+QString::number(i))->m_value;
         if (value > (int)(4.2f*FLOAT_SCALE_FACTOR))
         {
             guoYa = true;
@@ -171,10 +212,55 @@ void MainWindow::updateCtrlDatas()
         protectInfo += QString::fromWCharArray(L"单体过压保护");
     }
     ui->protectInfoLabel->setText(protectInfo);
+
+    // 警告信息
+    QString warningInfo;
+    int value = DataManager::getInstance()->getParamByName(PARAM_NAME_CHARGE_MOS_STATUS)->m_value;
+    if (value == STATUS_EXCEPTION)
+    {
+        warningInfo = QString::fromWCharArray(L"充电MOS异常");
+    }
+
+    value = DataManager::getInstance()->getParamByName(PARAM_NAME_FANGDIAN_MOS_STATUS)->m_value;
+    if (value == STATUS_EXCEPTION)
+    {
+        if (!warningInfo.isEmpty())
+        {
+            warningInfo += "\n";
+        }
+        warningInfo += QString::fromWCharArray(L"放电MOS异常");
+    }
+    ui->warningInfoLabel->setText(warningInfo);
+}
+
+void MainWindow::updateTemperatureInfo()
+{
+    int mosT = DataManager::getInstance()->getParamByName(PARAM_NAME_MOS_TEMPERATURE)->m_value;
+    int junhengT = DataManager::getInstance()->getParamByName(PARAM_NAME_JUNHENG_TEMPERATURE)->m_value;
+    int t1 = DataManager::getInstance()->getParamByName(PARAM_NAME_T1_TEMPERATURE)->m_value;
+    int t2 = DataManager::getInstance()->getParamByName(PARAM_NAME_T2_TEMPERATURE)->m_value;
+    ui->mosTempLabel->setText(QString::number(mosT/100.0f, 'f', 2));
+    ui->junhengTempLabel->setText(QString::number(junhengT/100.0f, 'f', 2));
+    ui->t1TempLabel->setText(QString::number(t1/100.0f, 'f', 2));
+    ui->t2TempLabel->setText(QString::number(t2/100.0f, 'f', 2));
 }
 
 void MainWindow::onMainTimer()
 {
+    // 更新与设备的连接信息
+    QString connectStatus;
+    if (m_modbusClient.isConnected())
+    {
+        connectStatus = QString::fromWCharArray(L"已连接");
+    }
+    else
+    {
+        connectStatus = QString::fromWCharArray(L"未连接");
+    }
+    QString connectInfo = QString::fromWCharArray(L"连接状态：%1，发送数据包：%2，接受数据包：%3").arg(
+                connectStatus, QString::number(m_modbusClient.getSendCount()), QString::number(m_modbusClient.getRecvCount()));
+    ui->connectInfoLabel->setText(connectInfo);
+
     if (m_modbusClient.isConnected())
     {
         // 读取充电MOS、放电MOS、均衡开关的状态
@@ -185,12 +271,12 @@ void MainWindow::onMainTimer()
         datas.append((char)0x03);
         m_modbusClient.sendData(CONTEXT_READ_SWITCH_STATUS, QModbusPdu::ReadCoils, datas);
 
-        // 读取电池和均衡的状态
+        // 读取电池、充电MOS、放电MOS、均衡的状态
         datas.clear();
         datas.append((char)0x10);
         datas.append((char)0x01);
         datas.append((char)0x00);
-        datas.append((char)0x02);
+        datas.append((char)0x04);
         m_modbusClient.sendData(CONTEXT_READ_BATTERY_JUNHENG_STATUS, QModbusPdu::ReadDiscreteInputs, datas);
 
         // 读取电压电流数据
@@ -201,11 +287,31 @@ void MainWindow::onMainTimer()
         datas.append((char)0x18);
         m_modbusClient.sendData(CONTEXT_READ_DIANYA_DIANLIU_DATA, QModbusPdu::ReadInputRegisters, datas);
 
+        // 更新温度
+        qint64 now = QDateTime::currentMSecsSinceEpoch();
+        if (now - m_lastTemperatureUpdateTime >= 5000)
+        {
+            datas.clear();
+            datas.append((char)0x75);
+            datas.append((char)0x47);
+            datas.append((char)0x00);
+            datas.append((char)0x04);
+            m_modbusClient.sendData(CONTEXT_READ_TEMPERATURE_DATA, QModbusPdu::ReadInputRegisters, datas);
+            m_lastTemperatureUpdateTime = now;
+        }
     }
 }
 
 void MainWindow::onRecvData(const QString& context, bool success, const QByteArray& data)
 {
+    if (m_upgradeController)
+    {
+        if (m_upgradeController->recvData(context, success, data))
+        {
+            return;
+        }
+    }
+
     if (context == CONTEXT_READ_SWITCH_STATUS)
     {
         // 读取充电MOS、放电MOS、均衡开关的状态
@@ -252,13 +358,17 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     }
     else if (context == CONTEXT_READ_BATTERY_JUNHENG_STATUS)
     {
-        // 读取电池和均衡的状态
-        if (success && data.length() >= 6)
+        // 读取电池、均衡、充电MOS、放电MOS的状态
+        if (success && data.length() >= 10)
         {
             bool batteryException = data[3] == 0x00;
             bool junhengException = data[5] == 0x00;
+            bool chargeMosException = data[7] == 0x00;
+            bool fangdianMosException = data[9] == 0x00;
             DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_STATUS, batteryException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_STATUS, junhengException?STATUS_EXCEPTION:STATUS_GOOD);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_CHARGE_MOS_STATUS, chargeMosException?STATUS_EXCEPTION:STATUS_GOOD);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_FANGDIAN_MOS_STATUS, fangdianMosException?STATUS_EXCEPTION:STATUS_GOOD);
             updateCtrlDatas();
         }
     }
@@ -295,6 +405,49 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
                                                           batteryDianYa);
             }
             updateCtrlDatas();
+        }
+    }
+    else if (context == CONTEXT_READ_TEMPERATURE_DATA)
+    {
+        // 读取温度数据
+        if (success && data.length() >= 10)
+        {
+            int pos = 2;
+            int mosT = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int junhengT = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int t1 = MAKE_INT(data[pos], data[pos+1]);
+            pos += 2;
+            int t2 = MAKE_INT(data[pos], data[pos+1]);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_MOS_TEMPERATURE, mosT);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_TEMPERATURE, junhengT);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_T1_TEMPERATURE, t1);
+            DataManager::getInstance()->setParamValue(PARAM_NAME_T2_TEMPERATURE, t2);
+            updateCtrlDatas();
+        }
+    }
+    else if (context == CONTEXT_WRITE_PARAM_DATA)
+    {
+       if (success)
+       {
+           if (m_progressDlg)
+           {
+               m_progressDlg->setCanClose();
+               m_progressDlg->close();
+               m_progressDlg = nullptr;
+           }
+       }
+    }
+    else if (context == CONTEXT_READ_SOFTWARE_VERSION)
+    {
+        // 读取软件版本信息
+        if (success && data.length() >= 6)
+        {
+            QString hardwareVersion = QString("%1.%2").arg(QString::number((int)data[2]), QString::number((int)data[3]));
+            QString softwareVersion = QString("%1.%2").arg(QString::number((int)data[4]), QString::number((int)data[5]));
+            ui->softVersionEdit->setText(softwareVersion);
+            ui->hardwareVersionEdit->setText(hardwareVersion);
         }
     }
 }
@@ -371,13 +524,58 @@ void MainWindow::onJunhengButtonClicked()
     m_modbusClient.sendData(CONTEXT_WRITE_JUNHENG_SWITCH, QModbusPdu::WriteSingleCoil, datas);
 }
 
+void MainWindow::onSelectAllButtonClicked()
+{
+    for (const auto& param : DataManager::getInstance()->m_params)
+    {
+        if (!param.m_localSave)
+        {
+            continue;
+        }
+
+        QList<QCheckBox *> checkBoxes = findChildren<QCheckBox *>(param.m_name+"CheckBox");
+        if (checkBoxes.size() > 0)
+        {
+            checkBoxes[0]->setChecked(true);
+        }
+    }
+}
+
+void MainWindow::onUnSelectAllButtonClicked()
+{
+    for (const auto& param : DataManager::getInstance()->m_params)
+    {
+        if (!param.m_localSave)
+        {
+            continue;
+        }
+
+        QList<QCheckBox *> checkBoxes = findChildren<QCheckBox *>(param.m_name+"CheckBox");
+        if (checkBoxes.size() > 0)
+        {
+            checkBoxes[0]->setChecked(false);
+        }
+    }
+}
+
 void MainWindow::onWriteParamButtonClicked()
 {
+    if (!m_modbusClient.isConnected())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"未连接"));
+        return;
+    }
+
     // 获取勾选需要设置的参数
     QVector<QString> writeParamNames;
     QVector<QString> writeParamTitles;
     for (const auto& param : DataManager::getInstance()->m_params)
     {
+        if (!param.m_localSave)
+        {
+            continue;
+        }
+
         QList<QCheckBox *> checkBoxes = findChildren<QCheckBox *>(param.m_name+"CheckBox");
         if (checkBoxes.size() > 0)
         {
@@ -391,6 +589,7 @@ void MainWindow::onWriteParamButtonClicked()
     }
 
     // 校验参数
+    QVector<QString> writeParamValues;
     for (int i=0; i<writeParamNames.size(); i++)
     {
         QList<QLineEdit *> edits = findChildren<QLineEdit *>(writeParamNames[i]+"Edit");
@@ -406,6 +605,8 @@ void MainWindow::onWriteParamButtonClicked()
                     UiUtil::showTip(tip);
                     return;
                 }
+
+                writeParamValues.append(edits[0]->text());
                 continue;
             }
         }
@@ -414,5 +615,229 @@ void MainWindow::onWriteParamButtonClicked()
         return;
     }
 
-    // 保存参数
+    // 保存参数    
+    for (int i=0; i<writeParamNames.size(); i++)
+    {
+        ParamItem* param = DataManager::getInstance()->getParamByName(writeParamNames[i]);
+        if (param)
+        {
+            if (param->m_valueType == PARAM_VALUE_TYPE_FLOAT)
+            {
+                bool ok = false;
+                float value = writeParamValues[i].toFloat(&ok);
+                if (ok)
+                {
+                    param->m_value = (int)(value * FLOAT_SCALE_FACTOR);
+                }
+            }
+            else
+            {
+                bool ok = false;
+                int value = writeParamValues[i].toInt(&ok);
+                if (ok)
+                {
+                    param->m_value = value;
+                }
+            }
+        }
+    }
+    DataManager::getInstance()->save();
+
+    // 显示一个进度条，发送数据
+    m_progressDlg = new MyProgressDialog(QString(), QString(), 0, 5, this);
+    m_progressDlg->setAttribute(Qt::WA_DeleteOnClose);
+    m_progressDlg->setWindowTitle(QString::fromWCharArray(L"提示"));
+    m_progressDlg->setLabelText(QString::fromWCharArray(L"正在写入"));
+    m_progressDlg->setValue(0);
+    m_progressDlg->show();
+
+    QTimer* progressTimer = new QTimer(m_progressDlg);
+    connect(progressTimer, &QTimer::timeout, [this]() {
+        if (m_progressDlg == nullptr)
+        {
+            return;
+        }
+
+        int value = m_progressDlg->value();
+        if (value >= m_progressDlg->maximum())
+        {
+            m_progressDlg->setCanClose();
+            m_progressDlg->close();
+            m_progressDlg = nullptr;
+
+            UiUtil::showTip(QString::fromWCharArray(L"写入超时"));
+        }
+        else
+        {
+            m_progressDlg->setValue(value+1);
+        }
+    });
+    progressTimer->start();
+
+    // 发送写入命令
+    static QString needWriteParamNames[] = {
+        PARAM_NAME_BATTERY_TYPE, PARAM_NAME_BATTERY_CHUANSHU,PARAM_NAME_DANTI_GUOYA,PARAM_NAME_ZONG_GUOYA,
+        PARAM_NAME_DANTI_QIANYA, PARAM_NAME_ZONG_QIANYA, PARAM_NAME_CHARGE_GUOLIU_PROTECT, PARAM_NAME_FANGDIAN_GUOLIU_PROTECT,
+        PARAM_NAME_DUANLU_PROTECT, PARAM_NAME_FANGDIAN_GUOLIU_WARNING, PARAM_NAME_TWO_FANGDIAN_GUOLIU_PROTECT,
+        PARAM_NAME_MOS_TEMPERATURE2, PARAM_NAME_JUNHENG_TEMPERATURE2, PARAM_NAME_T1_TEMPERATURE2, PARAM_NAME_T2_TEMPERATURE2,
+        PARAM_NAME_JUNHENG_JIXIAN_DIANYA, PARAM_NAME_JUNHENG_QIDONG_DIANYA, PARAM_NAME_JUNHENG_QIDONG_YACHA, PARAM_NAME_JUNHENG_JUESHU_YACHA,
+        PARAM_NAME_CHONGDIAN_GUOLIU_BAOHU_YANSHI, PARAM_NAME_FANGDIAN_GUOLIU_BAOHU_YANSHI, PARAM_NAME_DUANLU_BAOHU_YANSHI};
+
+    QByteArray datas;
+    datas.append((char)0x9c);
+    datas.append((char)0x41);
+    for (int i=0; i<sizeof(needWriteParamNames)/sizeof(needWriteParamNames[0]); i++)
+    {
+        bool found = false;
+        for (int j=0; j<writeParamNames.size(); j++)
+        {
+            if (needWriteParamNames[i] == writeParamNames[j])
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            datas.append((char)0x00);
+            datas.append((char)0x00);
+        }
+        else
+        {
+            int value = DataManager::getInstance()->getParamByName(needWriteParamNames[i])->m_value;
+            datas.append((char)((value>>8)&0xff));
+            datas.append((char)(value&0xff));
+        }
+    }
+    m_modbusClient.sendData(CONTEXT_WRITE_PARAM_DATA, QModbusPdu::WriteMultipleRegisters, datas);
+}
+
+
+void MainWindow::onConnectButtonClicked()
+{
+    int baud = ui->botelvComboBox->currentText().toInt();
+    SettingManager::getInstance()->m_baud = baud;
+    SettingManager::getInstance()->save();
+    m_modbusClient.setBaud(baud);
+}
+
+void MainWindow::onSelectSoftwarePathButtonClicked()
+{
+    QFileDialog fileDialog;
+    fileDialog.setWindowTitle(QString::fromWCharArray(L"选择文件"));
+    fileDialog.setNameFilters(QStringList() << "bin files (*.bin)");
+    if (fileDialog.exec() != QDialog::Accepted)
+    {
+        return;
+    }
+
+    QStringList selectedFiles = fileDialog.selectedFiles();
+    ui->softwarePathEdit->setText(selectedFiles[0]);
+}
+
+void MainWindow::onReadSoftwareVersionButtonClicked()
+{
+    QByteArray datas;
+    datas.append((char)0x75);
+    datas.append((char)0x4b);
+    datas.append((char)0x00);
+    datas.append((char)0x02);
+    m_modbusClient.sendData(CONTEXT_READ_SOFTWARE_VERSION, QModbusPdu::ReadInputRegisters, datas);
+}
+
+void MainWindow::onUpgradeButtonClicked()
+{
+    QString softFilePath = ui->softwarePathEdit->text();
+    if (softFilePath.isEmpty())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"请选择软件路径"));
+        return;
+    }
+
+    QFile file(softFilePath);
+    if (!file.exists())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"指定的软件路径不存在"));
+        return;
+    }
+
+    QString softVersion = ui->softVersionEdit->text();
+    if (softVersion.isEmpty())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"请先读取软件版本"));
+        return;
+    }
+
+    // 解析新软件版本
+    int index = softFilePath.indexOf("V", Qt::CaseInsensitive);
+    if (index < 0)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"无法从软件路径获取版本号"));
+        return;
+    }
+    QStringList parts = softFilePath.mid(index+1).split('.');
+    if (parts.size() != 3)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"无法从软件路径获取版本号"));
+        return;
+    }
+
+    bool ok = false;
+    int newMainVersion = parts[0].toInt(&ok);
+    if (!ok)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"无法从软件路径获取版本号"));
+        return;
+    }
+
+    int newMinorVersion = parts[1].toInt(&ok);
+    if (!ok)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"无法从软件路径获取版本号"));
+        return;
+    }
+
+    // 解析旧软件版本
+    parts = softVersion.split('.');
+    if (parts.size() != 2)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"软件版本错误"));
+        return;
+    }
+
+    int oldMainVersion = parts[0].toInt(&ok);
+    if (!ok)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"软件版本错误"));
+        return;
+    }
+
+    int oldMinorVersion = parts[1].toInt(&ok);
+    if (!ok)
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"软件版本错误"));
+        return;
+    }
+
+    // 比较版本
+    if (oldMainVersion > newMainVersion ||
+            (oldMainVersion == newMainVersion && oldMinorVersion >= newMinorVersion))
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"无法升级，版本不够高"));
+        return;
+    }
+
+    // 开始升级
+    m_upgradeController = new UpgradeController(this);
+    connect(m_upgradeController, &UpgradeController::runFinish, [this]() {
+        m_upgradeController->deleteLater();
+        m_upgradeController = nullptr;
+    });
+
+    m_upgradeController->m_modbusClient = &m_modbusClient;
+    m_upgradeController->m_mainVersion = newMainVersion;
+    m_upgradeController->m_minorVersion = newMinorVersion;
+    m_upgradeController->m_softFilePath = softFilePath;
+    m_upgradeController->run(this);
 }

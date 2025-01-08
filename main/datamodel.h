@@ -4,10 +4,12 @@
 #include <QString>
 
 // 电池类型
+#define BATTERY_TYPE_MIN 1
 #define BATTERY_TYPE_SANYUAN  1  // 三元锂电池
 #define BATTERY_TYPE_LINSUANTAI  2  // 磷酸铁锂电池
 #define BATTERY_TYPE_MENGSUAN  3  // 锰酸锂电池
 #define BATTERY_TYPE_OTHER  4  // 其它
+#define BATTERY_TYPE_MAX 4
 
 // 参数值类型
 #define PARAM_VALUE_TYPE_INT  1
@@ -138,6 +140,8 @@ QString getStringFromSwitch(int switchValue);
 
 #define PARAM_NAME_BATTERY_STATUS   "batteryStatus"     // 电池状态
 #define PARAM_NAME_JUNHENG_STATUS   "junfengStatus"     // 均衡状态
+#define PARAM_NAME_CHARGE_MOS_STATUS   "chargeMosStatus"     // 充电MOS状态
+#define PARAM_NAME_FANGDIAN_MOS_STATUS   "fangdianMosStatus"     // 放电MOS状态
 
 #define PARAM_NAME_SOC   "soc"     // 电池电量
 
@@ -150,6 +154,38 @@ QString getStringFromSwitch(int switchValue);
 #define PARAM_NAME_BATTERY_DIANYA_PREFIX  "batteryDianya"  // 电池电压前缀，总共16节，尾部从1到16
 #define BATTERY_COUNT 16  // 16节电池
 
+// 温度值都是实际值放大100倍
+#define PARAM_NAME_MOS_TEMPERATURE  "mosTemp"  // MOS温度
+#define PARAM_NAME_JUNHENG_TEMPERATURE  "junhengTemp"  // 均衡温度
+#define PARAM_NAME_T1_TEMPERATURE  "t1Temp"  // T1温度
+#define PARAM_NAME_T2_TEMPERATURE  "t2Temp"  // T2温度
+
+#define PARAM_NAME_MOS_TEMPERATURE2  "mosTemp2"  // MOS温度，设置使用
+#define PARAM_NAME_JUNHENG_TEMPERATURE2  "junhengTemp2"  // 均衡温度，设置使用
+#define PARAM_NAME_T1_TEMPERATURE2  "t1Temp2"  // T1温度，设置使用
+#define PARAM_NAME_T2_TEMPERATURE2  "t2Temp2"  // T2温度，设置使用
+
+#define PARAM_NAME_BATTERY_TYPE   "batteryType"     // 电池类型
 #define PARAM_NAME_BATTERY_CHUANSHU   "batteryChuanshu"     // 电池串数
+
+#define PARAM_NAME_DANTI_GUOYA   "dantiGuoya"     // 单体过压
+#define PARAM_NAME_ZONG_GUOYA   "zongGuoya"     // 总过压
+#define PARAM_NAME_DANTI_QIANYA   "dantiQianya"     // 单体欠压
+#define PARAM_NAME_ZONG_QIANYA  "zongQianya"     // 总欠压
+
+#define PARAM_NAME_CHARGE_GUOLIU_PROTECT   "chargeGuoliuProtect"     // 充电过流保护
+#define PARAM_NAME_FANGDIAN_GUOLIU_PROTECT   "fangdianGuoliuProtect"     // 放电过流保护
+#define PARAM_NAME_DUANLU_PROTECT   "duanluProtect"     // 短路保护
+#define PARAM_NAME_FANGDIAN_GUOLIU_WARNING  "fangdianGuoliuWarning"     // 放电过流报警
+#define PARAM_NAME_TWO_FANGDIAN_GUOLIU_PROTECT   "twoFangdianGuoliuProtect"     // 二级放电过流保护
+
+#define PARAM_NAME_JUNHENG_JIXIAN_DIANYA   "junhengJixianDianya"     // 均衡极限电压
+#define PARAM_NAME_JUNHENG_QIDONG_DIANYA   "junhengQidongDianya"     // 均衡启动电压
+#define PARAM_NAME_JUNHENG_QIDONG_YACHA   "junhengQidongYacha"     // 均衡启动压差
+#define PARAM_NAME_JUNHENG_JUESHU_YACHA   "junhengJieSuYacha"     // 均衡结束压差
+
+#define PARAM_NAME_CHONGDIAN_GUOLIU_BAOHU_YANSHI   "chongdianGuoliuBaohuYansi"     // 充电过流保护延时
+#define PARAM_NAME_FANGDIAN_GUOLIU_BAOHU_YANSHI   "fangdianGuoliuBaohuYansi"     // 放电过流保护延时
+#define PARAM_NAME_DUANLU_BAOHU_YANSHI   "duanluBaohuYansi"     // 短路保护延时
 
 #endif // DATAMODEL_H

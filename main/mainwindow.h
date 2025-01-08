@@ -55,6 +55,8 @@ private slots:
 
     void onUpgradeButtonClicked();
 
+    void onModifyPasswordButtonClicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -40,6 +40,7 @@ void SettingManager::load()
 
     m_logLevel = root["log_level"].toInt();
     m_baud = root["baud"].toInt();
+    m_passwordMd5 = root["md"].toString();
 }
 
 void SettingManager::save()
@@ -47,6 +48,7 @@ void SettingManager::save()
     QJsonObject root;
     root["log_level"] = m_logLevel;
     root["baud"] = m_baud;
+    root["md"] = m_passwordMd5;
 
     QJsonDocument jsonDocument(root);
     QByteArray jsonData = jsonDocument.toJson(QJsonDocument::Indented);
@@ -59,4 +61,16 @@ void SettingManager::save()
     }
     file.write(jsonData);
     file.close();
+}
+
+QString SettingManager::getDefaultPassword()
+{
+    // 默认：jeric
+    QString password;
+    password.append((char)('h'+2));
+    password.append((char)('g'-2));
+    password.append((char)('r'));
+    password.append((char)('l'-3));
+    password.append((char)('b'+1));
+    return password;
 }

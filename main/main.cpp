@@ -5,6 +5,7 @@
 #include "Utility/DumpUtil.h"
 #include "Utility/ImPath.h"
 #include "settingmanager.h"
+#include "loginwindow.h"
 
 CLogUtil* g_dllLog = nullptr;
 
@@ -58,7 +59,13 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+
+    LoginWindow loginWindow;
+    loginWindow.connect(&loginWindow, &LoginWindow::loginSuccess, [](){
+        MainWindow* mainWindow = new MainWindow();
+        mainWindow->show();
+    });
+    loginWindow.show();
+
     return a.exec();
 }

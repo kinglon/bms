@@ -19,6 +19,7 @@ SOURCES += \
     crc32util.cpp \
     datamanager.cpp \
     datamodel.cpp \
+    loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     mymodbusclient.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     crc32util.h \
     datamanager.h \
     datamodel.h \
+    loginwindow.h \
     mainwindow.h \
     mymodbusclient.h \
     myprogressdialog.h \
@@ -48,6 +50,7 @@ HEADERS += \
     upgradecontroller.h
 
 FORMS += \
+    loginwindow.ui \
     mainwindow.ui
 
 # Enable PDB generation

@@ -11,7 +11,9 @@ protected:
 public:
     static SettingManager* getInstance();
 
-    void save();    
+    void save();
+
+    QString getDefaultPassword();
 
 private:
     void load();
@@ -20,4 +22,6 @@ public:
     int m_logLevel = 2;  // info
 
     int m_baud = 19200;
+
+    QString m_passwordMd5;
 };

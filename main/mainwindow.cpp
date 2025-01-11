@@ -51,6 +51,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::initCtrls()
 {
+    ui->tabWidget->setCurrentIndex(0);
+
     m_batteryWidget = new BatteryWidget(ui->groupBox);
     m_batteryWidget->setGeometry(ui->batteryVolumnWidget->geometry());
     ui->batteryVolumnWidget->setVisible(false);
@@ -599,6 +601,12 @@ void MainWindow::onWriteParamButtonClicked()
         }
     }
 
+    if (writeParamNames.empty())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"至少选择一个参数"));
+        return;
+    }
+
     // 校验参数
     QVector<QString> writeParamValues;
     for (int i=0; i<writeParamNames.size(); i++)
@@ -618,6 +626,16 @@ void MainWindow::onWriteParamButtonClicked()
                 }
 
                 writeParamValues.append(edits[0]->text());
+                continue;
+            }
+        }
+        else
+        {
+            QList<QComboBox *> comboBoxes = findChildren<QComboBox *>(writeParamNames[i]+"ComboBox");
+            if (comboBoxes.size() > 0)
+            {
+                int batteryType = comboBoxes[0]->currentData().toInt();
+                writeParamValues.append(QString::number(batteryType));
                 continue;
             }
         }
@@ -655,7 +673,12 @@ void MainWindow::onWriteParamButtonClicked()
     DataManager::getInstance()->save();
 
     // 显示一个进度条，发送数据
+    if (m_progressDlg)
+    {
+        return;
+    }
     m_progressDlg = new MyProgressDialog(QString(), QString(), 0, 5, this);
+    m_progressDlg->setAutoReset(false);
     m_progressDlg->setAttribute(Qt::WA_DeleteOnClose);
     m_progressDlg->setWindowTitle(QString::fromWCharArray(L"提示"));
     m_progressDlg->setLabelText(QString::fromWCharArray(L"正在写入"));
@@ -683,7 +706,7 @@ void MainWindow::onWriteParamButtonClicked()
             m_progressDlg->setValue(value+1);
         }
     });
-    progressTimer->start();
+    progressTimer->start(1000);
 
     // 发送写入命令
     static QString needWriteParamNames[] = {

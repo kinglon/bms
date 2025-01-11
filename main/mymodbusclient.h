@@ -7,6 +7,17 @@
 #include <QModbusPdu>
 #include <QMap>
 #include <QString>
+#include <QQueue>
+
+class RequestItem
+{
+public:
+    QString m_context;
+
+    QModbusPdu::FunctionCode m_functionCode = QModbusPdu::Invalid;
+
+    QByteArray m_data;
+};
 
 class MyModbusClient : public QObject
 {
@@ -35,6 +46,8 @@ public:
 private:
     void modbusConnect();
 
+    void sendDataInternal();
+
 signals:    
     void recvData(const QString& context, bool success, const QByteArray& data);
 
@@ -50,7 +63,11 @@ private:
 
     unsigned char m_serverAddress = 0xaa;
 
-    QMap<QModbusReply *, QString> m_reply2Context;
+    QQueue<RequestItem> m_requestToSend;
+
+    QModbusReply* m_currentReply = nullptr;
+
+    QString m_currentContext;
 
     bool m_enableDebug = false;
 

@@ -74,11 +74,11 @@ void MyModbusClient::sendData(const QString& context, QModbusPdu::FunctionCode f
         return;
     }
 
-    for (auto it=m_reply2Context.begin(); it!=m_reply2Context.end(); it++)
+    for (auto it=m_requestToSend.begin(); it!=m_requestToSend.end(); it++)
     {
-        if (it.value() == context)
+        if (it->m_context == context)
         {
-            qCritical("the context(%s) is sending data", context.toStdString().c_str());
+            qDebug("the context(%s) is sending data", context.toStdString().c_str());
             return;
         }
     }
@@ -90,78 +90,102 @@ void MyModbusClient::sendData(const QString& context, QModbusPdu::FunctionCode f
         return;
     }
 
-    if (m_enableDebug)
+    RequestItem requestItem;
+    requestItem.m_context = context;
+    requestItem.m_functionCode = functionCode;
+    requestItem.m_data = data;
+    m_requestToSend.push_back(requestItem);
+
+    sendDataInternal();
+}
+
+void MyModbusClient::sendDataInternal()
+{
+    if (m_requestToSend.empty())
     {
-        qDebug("send data, function code: %d, data: %s", (int)functionCode, data.toHex().toStdString().c_str());
+        return;
     }
 
-    QModbusRequest request(functionCode, data);
+    // 有正在发送还未响应
+    if (m_currentReply)
+    {
+        return;
+    }
+
+    if (m_requestToSend.size() >= 30)
+    {
+        qInfo("the size of request queue is %d", m_requestToSend.size());
+    }
+
+    RequestItem requestItem = m_requestToSend.front();
+    m_requestToSend.pop_front();
+
+    if (m_enableDebug)
+    {
+        qDebug("send data, function code: %d, data: %s", (int)requestItem.m_functionCode, requestItem.m_data.toHex().toStdString().c_str());
+    }
+
+    QModbusRequest request(requestItem.m_functionCode, requestItem.m_data);
     if (auto *reply = m_modbusDevice.sendRawRequest(request, m_serverAddress))
     {
         m_sendCount++;
 
         if (!reply->isFinished())
         {
-            m_reply2Context[reply] = context;
+            m_currentContext = requestItem.m_context;
+            m_currentReply = reply;
             connect(reply, &QModbusReply::finished, this, &MyModbusClient::onReadReady);
         }
         else
         {
             delete reply; // broadcast replies return immediately
-            emit recvData(context, true, QByteArray());
+            emit recvData(requestItem.m_context, true, QByteArray());
         }
     }
     else
     {
         qCritical("failed to send data, %s", m_modbusDevice.errorString().toStdString().c_str());
-        emit recvData(context, false, QByteArray());
+        emit recvData(requestItem.m_context, false, QByteArray());
     }
 }
 
 void MyModbusClient::onReadReady()
 {
-    auto reply = qobject_cast<QModbusReply *>(sender());
-    if (!reply)
+    if (m_currentReply == nullptr)
     {
+        qCritical("current reply is empty");
         return;
     }
 
-    QString context;
-    auto it = m_reply2Context.find(reply);
-    if (it == m_reply2Context.end())
-    {
-        reply->deleteLater();
-        qCritical("failed to find context");
-        return;
-    }
-    context = it.value();
-    m_reply2Context.erase(it);
-
-    if (reply->error() == QModbusDevice::NoError)
+    if (m_currentReply->error() == QModbusDevice::NoError)
     {
         m_recvCount++;
 
-        QModbusResponse response = reply->rawResult();
+        QModbusResponse response = m_currentReply->rawResult();
         if (m_enableDebug)
         {
             qDebug("recv data, function code: %d, data: %s", (int)response.functionCode(), response.data().toHex().toStdString().c_str());
         }
-        emit recvData(context, true, response.data());
+        emit recvData(m_currentContext, true, response.data());
     }
-    else if (reply->error() == QModbusDevice::ProtocolError)
+    else if (m_currentReply->error() == QModbusDevice::ProtocolError)
     {
         qCritical("Read response error: %s (Mobus exception: %d)",
-                                    reply->errorString().toStdString().c_str(),
-                                    reply->rawResult().exceptionCode());
-        emit recvData(context, false, QByteArray());
+                                    m_currentReply->errorString().toStdString().c_str(),
+                                    m_currentReply->rawResult().exceptionCode());
+        emit recvData(m_currentContext, false, QByteArray());
     }
     else
     {
         qCritical("Read response error: %s (code: %d)",
-                                    reply->errorString().toStdString().c_str(),
-                                    reply->error());
-        emit recvData(context, false, QByteArray());
+                                    m_currentReply->errorString().toStdString().c_str(),
+                                    m_currentReply->error());
+        emit recvData(m_currentContext, false, QByteArray());
     }
 
-    reply->deleteLater();
+    m_currentReply->deleteLater();
+    m_currentReply = nullptr;
+    m_currentContext = "";
+
+    sendDataInternal();
 }

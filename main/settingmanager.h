@@ -21,6 +21,8 @@ private:
 public:
     int m_logLevel = 2;  // info
 
+    QString m_serialPortName;
+
     int m_baud = 19200;
 
     QString m_passwordMd5;

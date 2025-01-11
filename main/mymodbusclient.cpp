@@ -1,6 +1,7 @@
 ﻿#include "mymodbusclient.h"
 #include <QVariant>
 #include <QTimer>
+#include <QLoggingCategory>
 
 MyModbusClient::MyModbusClient(QObject *parent)
     : QObject{parent}
@@ -22,6 +23,13 @@ MyModbusClient::MyModbusClient(QObject *parent)
     });    
 }
 
+void MyModbusClient::enableDebug()
+{
+    m_enableDebug = true;
+    QLoggingCategory::setFilterRules(QStringLiteral("qt.modbus* = true"));
+
+}
+
 void MyModbusClient::startConnect()
 {
     static bool first = true;
@@ -41,11 +49,11 @@ void MyModbusClient::startConnect()
 
 void MyModbusClient::modbusConnect()
 {
-    if (m_modbusDevice.state() != QModbusDevice::ConnectedState)
-    {
+    if (m_modbusDevice.state() != QModbusDevice::ConnectedState && !m_portName.isEmpty())
+    {        
         qInfo("begin to connect");
-        m_modbusDevice.setConnectionParameter(QModbusDevice::SerialPortNameParameter, "COM9");
-        m_modbusDevice.setConnectionParameter(QModbusDevice::SerialParityParameter, 2);
+        m_modbusDevice.setConnectionParameter(QModbusDevice::SerialPortNameParameter, m_portName);
+        m_modbusDevice.setConnectionParameter(QModbusDevice::SerialParityParameter, 0);
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialBaudRateParameter, m_baud);
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialDataBitsParameter, 8);
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialStopBitsParameter, 1);

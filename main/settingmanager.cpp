@@ -41,6 +41,10 @@ void SettingManager::load()
     m_logLevel = root["log_level"].toInt();
     m_baud = root["baud"].toInt();
     m_passwordMd5 = root["md"].toString();
+    if (root.contains("serialPortName"))
+    {
+        m_serialPortName = root["serialPortName"].toString();
+    }
 }
 
 void SettingManager::save()
@@ -49,6 +53,7 @@ void SettingManager::save()
     root["log_level"] = m_logLevel;
     root["baud"] = m_baud;
     root["md"] = m_passwordMd5;
+    root["serialPortName"] = m_serialPortName;
 
     QJsonDocument jsonDocument(root);
     QByteArray jsonData = jsonDocument.toJson(QJsonDocument::Indented);

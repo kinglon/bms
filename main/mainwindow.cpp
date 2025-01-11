@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include "publicdef.h"
 #include <QCryptographicHash>
+#include <QtSerialPort/QSerialPortInfo>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
         {
             m_modbusClient.enableDebug();
         }
+        m_modbusClient.setPortName(SettingManager::getInstance()->m_serialPortName);
         m_modbusClient.setBaud(SettingManager::getInstance()->m_baud);
         m_modbusClient.startConnect();
 
@@ -63,6 +65,13 @@ void MainWindow::initCtrls()
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"19200"));
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"115200"));
     ui->botelvComboBox->setCurrentText(QString::number(SettingManager::getInstance()->m_baud));
+
+    QList<QSerialPortInfo> serialPorts = QSerialPortInfo::availablePorts();
+    for (const auto& serialPort : serialPorts)
+    {
+        ui->portComboBox->addItem(serialPort.portName());
+    }
+    ui->portComboBox->setCurrentText(SettingManager::getInstance()->m_serialPortName);
 
     // 通过参数名称查找控件，并设置值
     for (const auto& paramItem : DataManager::getInstance()->m_params)
@@ -101,6 +110,7 @@ void MainWindow::initCtrls()
     connect(ui->selectSoftwarePathButton, &QPushButton::clicked, this, &MainWindow::onSelectSoftwarePathButtonClicked);
     connect(ui->readSoftVersionButton, &QPushButton::clicked, this, &MainWindow::onReadSoftwareVersionButtonClicked);
     connect(ui->upgradeButton, &QPushButton::clicked, this, &MainWindow::onUpgradeButtonClicked);
+    connect(ui->modifyPasswordButton, &QPushButton::clicked, this, &MainWindow::onModifyPasswordButtonClicked);
 }
 
 void MainWindow::updateCtrlDatas()
@@ -717,9 +727,19 @@ void MainWindow::onWriteParamButtonClicked()
 
 void MainWindow::onConnectButtonClicked()
 {
+    QString serialPortName = ui->portComboBox->currentText();
+    if (serialPortName.isEmpty())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"请选择端口"));
+        return;
+    }
+
     int baud = ui->botelvComboBox->currentText().toInt();
+
+    SettingManager::getInstance()->m_serialPortName = serialPortName;
     SettingManager::getInstance()->m_baud = baud;
     SettingManager::getInstance()->save();
+    m_modbusClient.setPortName(serialPortName);
     m_modbusClient.setBaud(baud);
 }
 
@@ -739,6 +759,12 @@ void MainWindow::onSelectSoftwarePathButtonClicked()
 
 void MainWindow::onReadSoftwareVersionButtonClicked()
 {
+    if (!m_modbusClient.isConnected())
+    {
+        UiUtil::showTip(QString::fromWCharArray(L"未连接"));
+        return;
+    }
+
     QByteArray datas;
     datas.append((char)0x75);
     datas.append((char)0x4b);

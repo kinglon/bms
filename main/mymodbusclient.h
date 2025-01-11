@@ -14,7 +14,9 @@ class MyModbusClient : public QObject
 public:
     explicit MyModbusClient(QObject *parent = nullptr);
 
-    void enableDebug() { m_enableDebug = true; }
+    void enableDebug();
+
+    void setPortName(QString portName) { m_portName = portName; }
 
     void setBaud(int baud) { m_baud = baud; }
 
@@ -41,6 +43,8 @@ private slots:
 
 private:
     QModbusRtuSerialMaster m_modbusDevice;
+
+    QString m_portName;
 
     int m_baud = 19200;
 

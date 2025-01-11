@@ -2500,6 +2500,31 @@ color: blue;</string>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_75">
          <item>
+          <widget class="QLabel" name="label_117">
+           <property name="minimumSize">
+            <size>
+             <width>70</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>70</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>端口</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="portComboBox"/>
+         </item>
+         <item>
           <widget class="QLabel" name="label_113">
            <property name="minimumSize">
             <size>
@@ -2736,13 +2761,13 @@ color: blue;</string>
       <property name="title">
        <string>修改密码</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget34">
        <property name="geometry">
         <rect>
          <x>30</x>
          <y>30</y>
          <width>351</width>
-         <height>111</height>
+         <height>115</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">

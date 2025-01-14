@@ -35,11 +35,11 @@ private slots:
 
     void onRecvData(const QString& context, bool success, const QByteArray& data);
 
-    void onChargeMosButtonClicked();
+    void onChargeMosButtonClicked(bool open);
 
-    void onFangdianMosButtonClicked();
+    void onFangdianMosButtonClicked(bool open);
 
-    void onJunhengButtonClicked();
+    void onJunhengButtonClicked(bool open);
 
     void onSelectAllButtonClicked();
 

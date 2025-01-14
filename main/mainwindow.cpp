@@ -102,9 +102,24 @@ void MainWindow::initCtrls()
     int value = DataManager::getInstance()->getParamByName(PARAM_NAME_BATTERY_TYPE)->m_value;
     ui->batteryTypeComboBox->setCurrentIndex(value-BATTERY_TYPE_MIN);
 
-    connect(ui->chargeMosButton, &QPushButton::clicked, this, &MainWindow::onChargeMosButtonClicked);
-    connect(ui->fangdianMosButton, &QPushButton::clicked, this, &MainWindow::onFangdianMosButtonClicked);
-    connect(ui->junhengButton, &QPushButton::clicked, this, &MainWindow::onJunhengButtonClicked);
+    connect(ui->openChargeMosButton, &QPushButton::clicked, [this]() {
+        onChargeMosButtonClicked(true);
+    });
+    connect(ui->closeChargeMosButton, &QPushButton::clicked, [this]() {
+        onChargeMosButtonClicked(false);
+    });
+    connect(ui->openFangdianMosButton, &QPushButton::clicked, [this]() {
+        onFangdianMosButtonClicked(true);
+    });
+    connect(ui->closeFangdianMosButton, &QPushButton::clicked, [this]() {
+        onFangdianMosButtonClicked(false);
+    });
+    connect(ui->openJunhengButton, &QPushButton::clicked, [this]() {
+        onJunhengButtonClicked(true);
+    });
+    connect(ui->closeJunhengButton, &QPushButton::clicked, [this]() {
+        onJunhengButtonClicked(false);
+    });
     connect(ui->selectAllButton, &QPushButton::clicked, this, &MainWindow::onSelectAllButtonClicked);
     connect(ui->unselectAllButton, &QPushButton::clicked, this, &MainWindow::onUnSelectAllButtonClicked);
     connect(ui->writeParamButton, &QPushButton::clicked, this, &MainWindow::onWriteParamButtonClicked);
@@ -143,42 +158,10 @@ void MainWindow::updateCtrlDatas()
 
     // 非数值类的参数重新设置
     int value = DataManager::getInstance()->getParamByName(PARAM_NAME_BATTERY_STATUS)->m_value;
-    ui->batteryStatusLabel->setText(getStringFromStatus(value));
-
-    value = DataManager::getInstance()->getParamByName(PARAM_NAME_CHARGE_MOS_SWITCH)->m_value;
-    ui->chargeMosSwitchLabel->setText(getStringFromSwitch(value));
-    if (value == SWITCH_OPEN)
-    {
-        ui->chargeMosButton->setText(QString::fromWCharArray(L"关闭充电MOS"));
-    }
-    else
-    {
-        ui->chargeMosButton->setText(QString::fromWCharArray(L"打开充电MOS"));
-    }
-
-    value = DataManager::getInstance()->getParamByName(PARAM_NAME_FANGDIAN_MOS_SWITCH)->m_value;
-    ui->fangdianMosSwitchLabel->setText(getStringFromSwitch(value));
-    if (value == SWITCH_OPEN)
-    {
-        ui->fangdianMosButton->setText(QString::fromWCharArray(L"关闭放电MOS"));
-    }
-    else
-    {
-        ui->fangdianMosButton->setText(QString::fromWCharArray(L"打开放电MOS"));
-    }
+    ui->batteryStatusLabel->setText(getStringFromStatus(value));    
 
     value = DataManager::getInstance()->getParamByName(PARAM_NAME_JUNHENG_STATUS)->m_value;
-    ui->junfengStatusLabel->setText(getStringFromStatus(value));
-
-    value = DataManager::getInstance()->getParamByName(PARAM_NAME_JUNHENG_SWITCH)->m_value;
-    if (value == SWITCH_OPEN)
-    {
-        ui->junhengButton->setText(QString::fromWCharArray(L"关闭均衡"));
-    }
-    else
-    {
-        ui->junhengButton->setText(QString::fromWCharArray(L"打开均衡"));
-    }
+    ui->junfengStatusLabel->setText(getStringFromStatus(value));    
 
     // 更新电池电量
     if (m_batteryWidget)
@@ -465,7 +448,7 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     }
 }
 
-void MainWindow::onChargeMosButtonClicked()
+void MainWindow::onChargeMosButtonClicked(bool open)
 {
     if (!m_modbusClient.isConnected())
     {
@@ -478,7 +461,7 @@ void MainWindow::onChargeMosButtonClicked()
     datas.append((char)0x00);
     datas.append((char)0x01);
     datas.append((char)0x00);
-    if (ui->chargeMosButton->text().indexOf(QString::fromWCharArray(L"打开")) >= 0)
+    if (open)
     {
         datas.append((char)0x01);
     }
@@ -489,7 +472,7 @@ void MainWindow::onChargeMosButtonClicked()
     m_modbusClient.sendData(CONTEXT_WRITE_CHARGE_MOS_SWITCH, QModbusPdu::WriteSingleCoil, datas);
 }
 
-void MainWindow::onFangdianMosButtonClicked()
+void MainWindow::onFangdianMosButtonClicked(bool open)
 {
     if (!m_modbusClient.isConnected())
     {
@@ -502,7 +485,7 @@ void MainWindow::onFangdianMosButtonClicked()
     datas.append((char)0x00);
     datas.append((char)0x02);
     datas.append((char)0x00);
-    if (ui->fangdianMosButton->text().indexOf(QString::fromWCharArray(L"打开")) >= 0)
+    if (open)
     {
         datas.append((char)0x01);
     }
@@ -513,7 +496,7 @@ void MainWindow::onFangdianMosButtonClicked()
     m_modbusClient.sendData(CONTEXT_WRITE_FANGDIAN_MOS_SWITCH, QModbusPdu::WriteSingleCoil, datas);
 }
 
-void MainWindow::onJunhengButtonClicked()
+void MainWindow::onJunhengButtonClicked(bool open)
 {
     if (!m_modbusClient.isConnected())
     {
@@ -526,7 +509,7 @@ void MainWindow::onJunhengButtonClicked()
     datas.append((char)0x00);
     datas.append((char)0x03);
     datas.append((char)0x00);
-    if (ui->junhengButton->text().indexOf(QString::fromWCharArray(L"打开")) >= 0)
+    if (open)
     {
         datas.append((char)0x01);
     }

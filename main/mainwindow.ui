@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="batteryStatusTab">
      <attribute name="title">
@@ -1719,36 +1719,69 @@ color: blue;</string>
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QWidget" name="layoutWidget5">
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
-         <x>310</x>
+         <x>291</x>
          <y>20</y>
-         <width>141</width>
-         <height>91</height>
+         <width>180</width>
+         <height>92</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_42">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QPushButton" name="chargeMosButton">
-          <property name="text">
-           <string>打开充电MOS</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QPushButton" name="openChargeMosButton">
+            <property name="text">
+             <string>打开充电MOS</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="closeChargeMosButton">
+            <property name="text">
+             <string>关闭充电MOS</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QPushButton" name="fangdianMosButton">
-          <property name="text">
-           <string>打开放电MOS</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QPushButton" name="openFangdianMosButton">
+            <property name="text">
+             <string>打开放电MOS</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="closeFangdianMosButton">
+            <property name="text">
+             <string>关闭放电MOS</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QPushButton" name="junhengButton">
-          <property name="text">
-           <string>打开均衡</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QPushButton" name="openJunhengButton">
+            <property name="text">
+             <string>打开均衡</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="closeJunhengButton">
+            <property name="text">
+             <string>关闭均衡</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

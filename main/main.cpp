@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     g_dllLog->SetLogLevel((ELogLevel)nLogLevel);
     originalHandler = qInstallMessageHandler(logToFile);
 
-    QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+    qputenv("QT_FONT_DPI", "100");
     QApplication a(argc, argv);
 
     LoginWindow loginWindow;

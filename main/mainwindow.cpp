@@ -311,11 +311,11 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     if (context == CONTEXT_READ_SWITCH_STATUS)
     {
         // 读取充电MOS、放电MOS、均衡开关的状态
-        if (success && data.length() >= 8)
+        if (success && data.length() >= 2)
         {
-            bool chargeMosEnable = data[3] != 0x00;
-            bool fangdianMosEnable = data[5] != 0x00;
-            bool junhengEnable = data[7] != 0x00;
+            bool chargeMosEnable = (data[1] & 0x04);
+            bool fangdianMosEnable = (data[1] & 0x02);
+            bool junhengEnable = (data[1] & 0x01);
             DataManager::getInstance()->setParamValue(PARAM_NAME_CHARGE_MOS_SWITCH, chargeMosEnable?SWITCH_OPEN:SWITCH_CLOSE);
             DataManager::getInstance()->setParamValue(PARAM_NAME_FANGDIAN_MOS_SWITCH, fangdianMosEnable?SWITCH_OPEN:SWITCH_CLOSE);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_SWITCH, junhengEnable?SWITCH_OPEN:SWITCH_CLOSE);
@@ -355,12 +355,12 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     else if (context == CONTEXT_READ_BATTERY_JUNHENG_STATUS)
     {
         // 读取电池、均衡、充电MOS、放电MOS的状态
-        if (success && data.length() >= 10)
+        if (success && data.length() >= 5)
         {
-            bool batteryException = data[3] == 0x00;
-            bool junhengException = data[5] == 0x00;
-            bool chargeMosException = data[7] == 0x00;
-            bool fangdianMosException = data[9] == 0x00;
+            bool batteryException = data[1] == 0x00;
+            bool junhengException = data[2] == 0x00;
+            bool chargeMosException = data[3] == 0x00;
+            bool fangdianMosException = data[4] == 0x00;
             DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_STATUS, batteryException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_STATUS, junhengException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_CHARGE_MOS_STATUS, chargeMosException?STATUS_EXCEPTION:STATUS_GOOD);
@@ -371,9 +371,9 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     else if (context == CONTEXT_READ_DIANYA_DIANLIU_DATA)
     {
         // 读取电压电流数据
-        if (success && data.length() >= 48)
+        if (success && data.length() >= 49)
         {
-            int pos = 2;
+            int pos = 1;
             int soc = MAKE_INT(data[pos], data[pos+1]);
             pos += 2;
             int totalDianYa = MAKE_INT_4(data[pos], data[pos+1], data[pos+2], data[pos+3]);
@@ -406,9 +406,9 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     else if (context == CONTEXT_READ_TEMPERATURE_DATA)
     {
         // 读取温度数据
-        if (success && data.length() >= 10)
+        if (success && data.length() >= 9)
         {
-            int pos = 2;
+            int pos = 1;
             int mosT = MAKE_INT(data[pos], data[pos+1]);
             pos += 2;
             int junhengT = MAKE_INT(data[pos], data[pos+1]);
@@ -438,10 +438,10 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     else if (context == CONTEXT_READ_SOFTWARE_VERSION)
     {
         // 读取软件版本信息
-        if (success && data.length() >= 6)
+        if (success && data.length() >= 5)
         {
-            QString hardwareVersion = QString("%1.%2").arg(QString::number((int)data[2]), QString::number((int)data[3]));
-            QString softwareVersion = QString("%1.%2").arg(QString::number((int)data[4]), QString::number((int)data[5]));
+            QString hardwareVersion = QString("%1.%2").arg(QString::number((int)data[1]), QString::number((int)data[2]));
+            QString softwareVersion = QString("%1.%2").arg(QString::number((int)data[3]), QString::number((int)data[4]));
             ui->softVersionEdit->setText(softwareVersion);
             ui->hardwareVersionEdit->setText(hardwareVersion);
         }

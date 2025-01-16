@@ -137,9 +137,9 @@ bool UpgradeController::recvData(const QString& context, bool success, const QBy
     }
     else if (context == CONTEXT_GET_UPGRADE_PROGRESS)
     {
-        if (success && data.length() >= 4)
+        if (success && data.length() >= 3)
         {
-            int progress = (data[2]<<8) + data[3];
+            int progress = (data[1]<<8) + data[2];
             if (progress < 100)
             {
                 m_progressDlg->setLabelText(QString::fromWCharArray(L"正在升级 ") + QString::number(progress) + "%");

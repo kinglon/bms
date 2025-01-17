@@ -1,8 +1,8 @@
 ﻿#ifndef PUBLICDEF_H
 #define PUBLICDEF_H
 
-#define MAKE_INT(byte1, byte2) ((int)((byte1<<8) + byte2))
-#define MAKE_INT_4(byte1, byte2, byte3, byte4) ((int)((byte1<<24) + (byte2<<16) + (byte3<<8) + byte4))
+#define MAKE_INT(byte1, byte2) ((int)((((unsigned char)byte1)<<8) + (unsigned char)byte2))
+#define MAKE_INT_4(byte1, byte2, byte3, byte4) ((int)((((unsigned char)byte1)<<24) + (((unsigned char)byte2)<<16) + (((unsigned char)byte3)<<8) + ((unsigned char)byte4)))
 
 // context定义
 #define CONTEXT_READ_SWITCH_STATUS  "read_switch_status"  // 读取充电MOS、放电MOS、均衡开关的状态

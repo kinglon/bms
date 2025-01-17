@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QShortcut>
 #include "mymodbusclient.h"
 #include "batterywidget.h"
 #include "myprogressdialog.h"
@@ -30,6 +31,8 @@ private:
     void updateTemperatureInfo();
 
 private slots:
+    void onCtrlDShortcut();
+
     // 每隔一秒触发一次
     void onMainTimer();
 
@@ -59,6 +62,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    QShortcut* m_ctrlDShortcut = nullptr;
 
     MyModbusClient m_modbusClient;
 

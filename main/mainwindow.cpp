@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     updateCtrlDatas();
 
+    m_ctrlDShortcut = new QShortcut(QKeySequence("Ctrl+D"), this);
+        connect(m_ctrlDShortcut, &QShortcut::activated, this, &MainWindow::onCtrlDShortcut);
+
     connect(&m_modbusClient, &MyModbusClient::recvData, this, &MainWindow::onRecvData);
 
     // 先展示界面再连接
@@ -161,7 +164,13 @@ void MainWindow::updateCtrlDatas()
     ui->batteryStatusLabel->setText(getStringFromStatus(value));    
 
     value = DataManager::getInstance()->getParamByName(PARAM_NAME_JUNHENG_STATUS)->m_value;
-    ui->junfengStatusLabel->setText(getStringFromStatus(value));    
+    ui->junfengStatusLabel->setText(getStringFromStatus(value));
+
+    value = DataManager::getInstance()->getParamByName(PARAM_NAME_CHARGE_MOS_SWITCH)->m_value;
+    ui->chargeMosSwitchLabel->setText(getStringFromSwitch(value));
+
+    value = DataManager::getInstance()->getParamByName(PARAM_NAME_FANGDIAN_MOS_SWITCH)->m_value;
+    ui->fangdianMosSwitchLabel->setText(getStringFromSwitch(value));
 
     // 更新电池电量
     if (m_batteryWidget)
@@ -239,6 +248,12 @@ void MainWindow::updateTemperatureInfo()
     ui->junhengTempLabel->setText(QString::number(junhengT/100.0f, 'f', 2));
     ui->t1TempLabel->setText(QString::number(t1/100.0f, 'f', 2));
     ui->t2TempLabel->setText(QString::number(t2/100.0f, 'f', 2));
+}
+
+void MainWindow::onCtrlDShortcut()
+{
+//    QByteArray data = QByteArray::fromHex("300032000062300000271010680a2803e80fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa00fa0");
+//    onRecvData(CONTEXT_READ_DIANYA_DIANLIU_DATA, true, data);
 }
 
 void MainWindow::onMainTimer()
@@ -355,12 +370,12 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
     else if (context == CONTEXT_READ_BATTERY_JUNHENG_STATUS)
     {
         // 读取电池、均衡、充电MOS、放电MOS的状态
-        if (success && data.length() >= 5)
+        if (success && data.length() >= 2)
         {
-            bool batteryException = data[1] == 0x00;
-            bool junhengException = data[2] == 0x00;
-            bool chargeMosException = data[3] == 0x00;
-            bool fangdianMosException = data[4] == 0x00;
+            bool batteryException = (data[1]&0x01) == 0;
+            bool junhengException = (data[1]&0x02) == 0;
+            bool fangdianMosException = (data[1]&0x04) == 0;
+            bool chargeMosException = (data[1]&0x10) == 0;
             DataManager::getInstance()->setParamValue(PARAM_NAME_BATTERY_STATUS, batteryException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_STATUS, junhengException?STATUS_EXCEPTION:STATUS_GOOD);
             DataManager::getInstance()->setParamValue(PARAM_NAME_CHARGE_MOS_STATUS, chargeMosException?STATUS_EXCEPTION:STATUS_GOOD);
@@ -703,6 +718,9 @@ void MainWindow::onWriteParamButtonClicked()
     QByteArray datas;
     datas.append((char)0x9c);
     datas.append((char)0x41);
+    datas.append((char)0x00);
+    datas.append((char)0x16);
+    datas.append((char)0x2c);
     for (int i=0; i<sizeof(needWriteParamNames)/sizeof(needWriteParamNames[0]); i++)
     {
         bool found = false;

@@ -65,7 +65,7 @@ public:
         if (m_valueType == PARAM_VALUE_TYPE_FLOAT)
         {
             // 展示给用户，还原为真实数据
-            float value = m_value / FLOAT_SCALE_FACTOR;
+            float value = m_value * 1.0f / FLOAT_SCALE_FACTOR;
             return QString::number(value, 'f', 3) + m_unit;
         }
         else

@@ -170,7 +170,7 @@ void UpgradeController::splitFileData()
 
     while(!file.atEnd())
     {
-        QByteArray data = file.read(240);
+        QByteArray data = file.read(230);
         m_fileDatas.append(data);
     }
 
@@ -194,6 +194,9 @@ void UpgradeController::doStartUpgrade()
     QByteArray datas;
     datas.append((char)0x9c);
     datas.append((char)0x57);
+    datas.append((char)0x00);
+    datas.append((char)0x03);
+    datas.append((char)0x06);
     datas.append((char)m_mainVersion);
     datas.append((char)m_minorVersion);
     datas.append((char)((crc32>>24)&0xff));
@@ -211,6 +214,12 @@ void UpgradeController::doSendData()
     QByteArray datas;
     datas.append((char)0xa0);
     datas.append((char)0x28);
+    datas.append((char)0x00);
+    datas.append((char)0x16);
+
+    // 写入字节数: 帧序号 + 长度 + 数据
+    int writeBytes = 2 + 1 + m_fileDatas[m_nextSendIndex].length();
+    datas.append((char)writeBytes);
 
     // 帧序号
     datas.append((char)(((m_nextSendIndex+1)>>8)&0xff));

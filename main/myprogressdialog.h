@@ -15,6 +15,10 @@ public:
 public:
     void setCanClose() { m_canClose = true; }
 
+    void setSuccess();
+
+    bool isSuccess() { return m_success; }
+
 private:
     void showTip(QString tip);
 
@@ -23,6 +27,9 @@ private:
 
 private:
     bool m_canClose = false;
+
+    // 标志进度条的任务是否成功完成
+    bool m_success = false;
 };
 
 #endif // MYPROGRESSDIALOG_H

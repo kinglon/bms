@@ -444,9 +444,7 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
        {
            if (m_progressDlg)
            {
-               m_progressDlg->setCanClose();
-               m_progressDlg->close();
-               m_progressDlg = nullptr;
+               m_progressDlg->setSuccess();
            }
        }
     }
@@ -691,18 +689,33 @@ void MainWindow::onWriteParamButtonClicked()
         }
 
         int value = m_progressDlg->value();
-        if (value >= m_progressDlg->maximum())
+        if (m_progressDlg->isSuccess())
         {
-            m_progressDlg->setCanClose();
-            m_progressDlg->close();
-            m_progressDlg = nullptr;
+            // 至少显示2秒再关闭
+            if (value >= 1)
+            {
+                m_progressDlg->setCanClose();
+                m_progressDlg->close();
+                m_progressDlg = nullptr;
 
-            UiUtil::showTip(QString::fromWCharArray(L"写入超时"));
+                UiUtil::showTip(QString::fromWCharArray(L"写入完成"));
+                return;
+            }
         }
         else
         {
-            m_progressDlg->setValue(value+1);
+            if (value >= m_progressDlg->maximum())
+            {
+
+                m_progressDlg->setCanClose();
+                m_progressDlg->close();
+                m_progressDlg = nullptr;
+
+                UiUtil::showTip(QString::fromWCharArray(L"写入超时"));
+                return;
+            }
         }
+        m_progressDlg->setValue(value+1);
     });
     progressTimer->start(1000);
 

@@ -13,6 +13,11 @@ MyProgressDialog::MyProgressDialog(const QString &labelText, const QString &canc
     setFixedSize(470, 80);
 }
 
+void MyProgressDialog::setSuccess()
+{
+    m_success = true;
+}
+
 void MyProgressDialog::showTip(QString tip)
 {
     QMessageBox msgBox;

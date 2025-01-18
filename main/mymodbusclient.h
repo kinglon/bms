@@ -48,11 +48,15 @@ private:
 
     void sendDataInternal();
 
+    void readCompletely();
+
 signals:    
     void recvData(const QString& context, bool success, const QByteArray& data);
 
 private slots:
     void onReadReady();
+
+    void onReadError(QModbusDevice::Error error);
 
 private:
     QModbusRtuSerialMaster m_modbusDevice;

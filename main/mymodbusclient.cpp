@@ -135,6 +135,7 @@ void MyModbusClient::sendDataInternal()
             m_currentContext = requestItem.m_context;
             m_currentReply = reply;
             connect(reply, &QModbusReply::finished, this, &MyModbusClient::onReadReady);
+            connect(reply, &QModbusReply::errorOccurred, this, &MyModbusClient::onReadError);
         }
         else
         {
@@ -149,7 +150,7 @@ void MyModbusClient::sendDataInternal()
     }
 }
 
-void MyModbusClient::onReadReady()
+void MyModbusClient::readCompletely()
 {
     if (m_currentReply == nullptr)
     {
@@ -188,4 +189,14 @@ void MyModbusClient::onReadReady()
     m_currentContext = "";
 
     sendDataInternal();
+}
+
+void MyModbusClient::onReadReady()
+{
+    readCompletely();
+}
+
+void MyModbusClient::onReadError(QModbusDevice::Error)
+{
+    readCompletely();
 }

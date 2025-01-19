@@ -23,6 +23,8 @@ public:
 private:
     void initCtrls();
 
+    void initPortCtrl();
+
     void updateCtrlDatas();
 
     // 更新保护/警告信息

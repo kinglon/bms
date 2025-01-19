@@ -58,7 +58,13 @@ int main(int argc, char *argv[])
     originalHandler = qInstallMessageHandler(logToFile);
 
     qputenv("QT_FONT_DPI", "100");
+
     QApplication a(argc, argv);
+    a.setStyleSheet(
+          "QPushButton {"
+          "   background-color: rgb(72, 116, 203);"
+          "   color: white;"
+          "}");
 
     LoginWindow loginWindow;
     loginWindow.connect(&loginWindow, &LoginWindow::loginSuccess, [](){

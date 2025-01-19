@@ -16,7 +16,7 @@
 #define PARAM_VALUE_TYPE_FLOAT  2
 
 // 参数没有值
-#define PARAM_VALUE_NOT_SETTING  -100
+#define PARAM_VALUE_NOT_SETTING  -1000000
 
 // 浮点数放大倍数
 #define FLOAT_SCALE_FACTOR 1000

@@ -71,12 +71,7 @@ void MainWindow::initCtrls()
     ui->botelvComboBox->addItem(QString::fromWCharArray(L"115200"));
     ui->botelvComboBox->setCurrentText(QString::number(SettingManager::getInstance()->m_baud));
 
-    QList<QSerialPortInfo> serialPorts = QSerialPortInfo::availablePorts();
-    for (const auto& serialPort : serialPorts)
-    {
-        ui->portComboBox->addItem(serialPort.portName());
-    }
-    ui->portComboBox->setCurrentText(SettingManager::getInstance()->m_serialPortName);
+    initPortCtrl();
 
     // 通过参数名称查找控件，并设置值
     for (const auto& paramItem : DataManager::getInstance()->m_params)
@@ -131,6 +126,20 @@ void MainWindow::initCtrls()
     connect(ui->readSoftVersionButton, &QPushButton::clicked, this, &MainWindow::onReadSoftwareVersionButtonClicked);
     connect(ui->upgradeButton, &QPushButton::clicked, this, &MainWindow::onUpgradeButtonClicked);
     connect(ui->modifyPasswordButton, &QPushButton::clicked, this, &MainWindow::onModifyPasswordButtonClicked);
+    connect(ui->refreshPortButton, &QPushButton::clicked, [this]() {
+        initPortCtrl();
+    });
+}
+
+void MainWindow::initPortCtrl()
+{
+    QList<QSerialPortInfo> serialPorts = QSerialPortInfo::availablePorts();
+    ui->portComboBox->clear();
+    for (const auto& serialPort : serialPorts)
+    {
+        ui->portComboBox->addItem(serialPort.portName());
+    }
+    ui->portComboBox->setCurrentText(SettingManager::getInstance()->m_serialPortName);
 }
 
 void MainWindow::updateCtrlDatas()
@@ -244,10 +253,10 @@ void MainWindow::updateTemperatureInfo()
     int junhengT = DataManager::getInstance()->getParamByName(PARAM_NAME_JUNHENG_TEMPERATURE)->m_value;
     int t1 = DataManager::getInstance()->getParamByName(PARAM_NAME_T1_TEMPERATURE)->m_value;
     int t2 = DataManager::getInstance()->getParamByName(PARAM_NAME_T2_TEMPERATURE)->m_value;
-    ui->mosTempLabel->setText(QString::number(mosT/100.0f, 'f', 2));
-    ui->junhengTempLabel->setText(QString::number(junhengT/100.0f, 'f', 2));
-    ui->t1TempLabel->setText(QString::number(t1/100.0f, 'f', 2));
-    ui->t2TempLabel->setText(QString::number(t2/100.0f, 'f', 2));
+    ui->mosTempLabel->setText(QString::number(mosT/100.0f, 'f', 2)+QString::fromWCharArray(L"℃"));
+    ui->junhengTempLabel->setText(QString::number(junhengT/100.0f, 'f', 2)+QString::fromWCharArray(L"℃"));
+    ui->t1TempLabel->setText(QString::number(t1/100.0f, 'f', 2)+QString::fromWCharArray(L"℃"));
+    ui->t2TempLabel->setText(QString::number(t2/100.0f, 'f', 2)+QString::fromWCharArray(L"℃"));
 }
 
 void MainWindow::onCtrlDShortcut()
@@ -268,7 +277,7 @@ void MainWindow::onMainTimer()
     {
         connectStatus = QString::fromWCharArray(L"未连接");
     }
-    QString connectInfo = QString::fromWCharArray(L"连接状态：%1，发送数据包：%2，接受数据包：%3").arg(
+    QString connectInfo = QString::fromWCharArray(L"连接状态：%1，发送数据包：%2，接收数据包：%3").arg(
                 connectStatus, QString::number(m_modbusClient.getSendCount()), QString::number(m_modbusClient.getRecvCount()));
     ui->connectInfoLabel->setText(connectInfo);
 
@@ -423,14 +432,19 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
         // 读取温度数据
         if (success && data.length() >= 9)
         {
+            // 每个温度2个字节，最高位15位为1表示负数，0表示整数
             int pos = 1;
-            int mosT = MAKE_INT(data[pos], data[pos+1]);
+            int sign = (data[pos] & 0x80) ? -1 : 1;
+            int mosT = MAKE_INT((data[pos]&0x7f), data[pos+1]) * sign;
             pos += 2;
-            int junhengT = MAKE_INT(data[pos], data[pos+1]);
+            sign = (data[pos] & 0x80) ? -1 : 1;
+            int junhengT = MAKE_INT((data[pos]&0x7f), data[pos+1]) * sign;
             pos += 2;
-            int t1 = MAKE_INT(data[pos], data[pos+1]);
+            sign = (data[pos] & 0x80) ? -1 : 1;
+            int t1 = MAKE_INT((data[pos]&0x7f), data[pos+1]) * sign;
             pos += 2;
-            int t2 = MAKE_INT(data[pos], data[pos+1]);
+            sign = (data[pos] & 0x80) ? -1 : 1;
+            int t2 = MAKE_INT((data[pos]&0x7f), data[pos+1]) * sign;
             DataManager::getInstance()->setParamValue(PARAM_NAME_MOS_TEMPERATURE, mosT);
             DataManager::getInstance()->setParamValue(PARAM_NAME_JUNHENG_TEMPERATURE, junhengT);
             DataManager::getInstance()->setParamValue(PARAM_NAME_T1_TEMPERATURE, t1);

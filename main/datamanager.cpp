@@ -127,33 +127,33 @@ DataManager::DataManager()
     m_params.append(ParamItem(PARAM_NAME_MOS_TEMPERATURE,
                               PARAM_VALUE_TYPE_INT,
                               0, // value
-                              0, // min value
+                              -10000000, // min value
                               10000000, // max value
-                              "℃",  // unit
+                              QString::fromWCharArray(L"℃"),  // unit
                               false)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_JUNHENG_TEMPERATURE,
                               PARAM_VALUE_TYPE_INT,
                               0, // value
-                              0, // min value
+                              -10000000, // min value
                               10000000, // max value
-                              "℃",  // unit
+                              QString::fromWCharArray(L"℃"),  // unit
                               false)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_T1_TEMPERATURE,
                               PARAM_VALUE_TYPE_INT,
                               0, // value
-                              0, // min value
+                              -10000000, // min value
                               10000000, // max value
-                              "℃",  // unit
+                              QString::fromWCharArray(L"℃"),  // unit
                               false)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_T2_TEMPERATURE,
                               PARAM_VALUE_TYPE_INT,
                               0, // value
-                              0, // min value
+                              -10000000, // min value
                               10000000, // max value
-                              "℃",  // unit
+                              QString::fromWCharArray(L"℃"),  // unit
                               false)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_MOS_TEMPERATURE2,

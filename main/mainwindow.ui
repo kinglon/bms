@@ -1420,7 +1420,7 @@ color: blue;</string>
       <widget class="QWidget" name="widget_5" native="true">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>5</x>
          <y>9</y>
          <width>85</width>
          <height>114</height>
@@ -1435,15 +1435,18 @@ color: blue;</string>
       <widget class="QWidget" name="layoutWidget4">
        <property name="geometry">
         <rect>
-         <x>98</x>
+         <x>92</x>
          <y>11</y>
-         <width>176</width>
+         <width>210</width>
          <height>61</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_43">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_31">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_26">
             <item>
@@ -1472,7 +1475,7 @@ color: blue;</string>
              <widget class="QLabel" name="mosTempLabel">
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>55</width>
                 <height>0</height>
                </size>
               </property>
@@ -1511,7 +1514,7 @@ color: blue;</string>
              <widget class="QLabel" name="junhengTempLabel">
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>55</width>
                 <height>0</height>
                </size>
               </property>
@@ -1526,6 +1529,9 @@ color: blue;</string>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_32">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_29">
             <item>
@@ -1554,7 +1560,7 @@ color: blue;</string>
              <widget class="QLabel" name="t1TempLabel">
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>55</width>
                 <height>0</height>
                </size>
               </property>
@@ -1593,7 +1599,7 @@ color: blue;</string>
              <widget class="QLabel" name="t2TempLabel">
               <property name="minimumSize">
                <size>
-                <width>35</width>
+                <width>55</width>
                 <height>0</height>
                </size>
               </property>
@@ -1719,7 +1725,7 @@ color: blue;</string>
         <bool>false</bool>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget5">
        <property name="geometry">
         <rect>
          <x>291</x>
@@ -2558,6 +2564,25 @@ color: blue;</string>
           <widget class="QComboBox" name="portComboBox"/>
          </item>
          <item>
+          <widget class="QPushButton" name="refreshPortButton">
+           <property name="minimumSize">
+            <size>
+             <width>90</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>刷新</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_113">
            <property name="minimumSize">
             <size>
@@ -2771,7 +2796,7 @@ color: blue;</string>
        <item>
         <widget class="QLabel" name="connectInfoLabel">
          <property name="text">
-          <string>连接状态：未连接，发送数据包：0，接受数据包：0</string>
+          <string>连接状态：未连接，发送数据包：0，接收数据包：0</string>
          </property>
         </widget>
        </item>

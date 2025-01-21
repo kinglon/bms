@@ -170,7 +170,8 @@ void UpgradeController::splitFileData()
 
     while(!file.atEnd())
     {
-        QByteArray data = file.read(230);
+        // 帧序号(2)+长度(1)+data长度必需4的倍数
+        QByteArray data = file.read(233);
         m_fileDatas.append(data);
     }
 

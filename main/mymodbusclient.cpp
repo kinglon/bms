@@ -9,6 +9,15 @@ MyModbusClient::MyModbusClient(QObject *parent)
     connect(&m_modbusDevice, &QModbusClient::errorOccurred, [this](QModbusDevice::Error) {
         qCritical("modbus error: %s", m_modbusDevice.errorString().toStdString().c_str());
 
+        // 设备断电重启，导致无法正常通信，断开连接重连
+        if (m_modbusDevice.errorString().indexOf("Cannot open serial device due to permissions") >= 0)
+        {
+            if (m_modbusDevice.state() == QModbusDevice::ConnectedState)
+            {
+                qInfo("disconnect device for reconnecting");
+                m_modbusDevice.disconnectDevice();
+            }
+        }
     });
 
     connect(&m_modbusDevice, &QModbusClient::stateChanged, [](int state) {
@@ -52,6 +61,16 @@ void MyModbusClient::modbusConnect()
     if (m_modbusDevice.state() != QModbusDevice::ConnectedState && !m_portName.isEmpty())
     {        
         qInfo("begin to connect");
+
+        // 连接之前，如果有正在进行的请求，先结束掉
+        if (m_currentReply)
+        {
+            emit recvData(m_currentContext, false, QByteArray());
+            m_currentReply->deleteLater();
+            m_currentReply = nullptr;
+            m_currentContext = "";
+        }
+
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialPortNameParameter, m_portName);
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialParityParameter, 0);
         m_modbusDevice.setConnectionParameter(QModbusDevice::SerialBaudRateParameter, m_baud);
@@ -101,6 +120,11 @@ void MyModbusClient::sendData(const QString& context, QModbusPdu::FunctionCode f
 
 void MyModbusClient::sendDataInternal()
 {
+    if (m_modbusDevice.state() != QModbusDevice::ConnectedState)
+    {
+        return;
+    }
+
     if (m_requestToSend.empty())
     {
         return;

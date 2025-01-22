@@ -27,8 +27,6 @@ private:
 
     void doSendDataFinish();
 
-    void doGetProgress();
-
     void doCancelUpgrade();
 
     void splitFileData();

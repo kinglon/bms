@@ -398,7 +398,7 @@ void MainWindow::onRecvData(const QString& context, bool success, const QByteArr
         if (success && data.length() >= 49)
         {
             int pos = 1;
-            int soc = MAKE_INT(data[pos], data[pos+1]);
+            int soc = qMin(MAKE_INT(data[pos], data[pos+1]), 100);
             pos += 2;
             int totalDianYa = MAKE_INT_4(data[pos], data[pos+1], data[pos+2], data[pos+3]);
             pos += 4;

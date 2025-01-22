@@ -13,8 +13,10 @@ UpgradeController::UpgradeController(QObject *parent)
 
 void UpgradeController::run(QWidget* parent)
 {
+    splitFileData();
+
     // 显示一个进度条，发送数据
-    m_progressDlg = new MyProgressDialog(QString(), QString(), 0, 150, parent);
+    m_progressDlg = new MyProgressDialog(QString(), QString(), 0, 100, parent);
     m_progressDlg->setAttribute(Qt::WA_DeleteOnClose);
     m_progressDlg->setWindowTitle(QString::fromWCharArray(L"升级"));
     m_progressDlg->setLabelText(QString::fromWCharArray(L""));
@@ -29,15 +31,12 @@ void UpgradeController::run(QWidget* parent)
             return;
         }
 
-        int value = m_progressDlg->value();
-        if (value >= m_progressDlg->maximum() - 2)
+        // 根据下发的数据块数，更新进度值
+        if (m_fileDatas.size() > 0)
         {
-            m_progressTimer->stop();
-            // do nothing
-        }
-        else
-        {
-            m_progressDlg->setValue(value+1);
+            float percent = m_nextSendIndex*1.0f / m_fileDatas.size();
+            int value = qMin(int(percent*m_progressDlg->maximum()), 90);
+            m_progressDlg->setValue(value);
         }
     });
     m_progressTimer->start();
@@ -63,8 +62,7 @@ bool UpgradeController::recvData(const QString& context, bool success, const QBy
     if (context == CONTEXT_START_UPGRADE)
     {
         if (success)
-        {
-            splitFileData();
+        {            
             if (m_fileDatas.size() > 0)
             {
                 m_nextSendIndex = 0;
@@ -126,30 +124,10 @@ bool UpgradeController::recvData(const QString& context, bool success, const QBy
     {
         if (success)
         {
-            QTimer* timer = new QTimer();
-            connect(timer, &QTimer::timeout, [this]() {
-                doGetProgress();
-            });
-            timer->start(1000);
-        }
-
-        return true;
-    }
-    else if (context == CONTEXT_GET_UPGRADE_PROGRESS)
-    {
-        if (success && data.length() >= 3)
-        {
-            int progress = (data[1]<<8) + data[2];
-            if (progress < 100)
-            {
-                m_progressDlg->setLabelText(QString::fromWCharArray(L"正在升级 ") + QString::number(progress) + "%");
-            }
-            else
-            {
-                m_progressDlg->accept();
-                m_progressDlg->setLabelText(QString::fromWCharArray(L"升级成功"));
-                m_progressTimer->stop();
-            }
+            m_progressDlg->accept();
+            m_progressDlg->setLabelText(QString::fromWCharArray(L"升级成功"));
+            m_progressDlg->setValue(m_progressDlg->maximum());
+            m_progressTimer->stop();
         }
 
         return true;
@@ -209,8 +187,7 @@ void UpgradeController::doStartUpgrade()
 
 void UpgradeController::doSendData()
 {
-    m_progressDlg->setLabelText(QString::fromWCharArray(L"发送数据 %1/%2").arg(
-                                    QString::number(m_nextSendIndex+1, m_fileDatas.length())));
+    m_progressDlg->setLabelText(QString::fromWCharArray(L"发送数据"));
 
     QByteArray datas;
     datas.append((char)0xa0);
@@ -232,29 +209,17 @@ void UpgradeController::doSendData()
     // 数据
     datas.append(m_fileDatas[m_nextSendIndex]);
 
-    m_modbusClient->sendData(CONTEXT_SEND_UPGRADE_DATA, QModbusPdu::WriteFileRecord, datas);
+    m_modbusClient->sendData(CONTEXT_SEND_UPGRADE_DATA, QModbusPdu::WriteMultipleRegisters, datas);
 }
 
 void UpgradeController::doSendDataFinish()
 {
-    m_progressDlg->setLabelText(QString::fromWCharArray(L"发送数据完成"));
-
     QByteArray datas;
     datas.append((char)0x9c);
     datas.append((char)0x5a);
     datas.append((char)0x00);
     datas.append((char)0x01);
     m_modbusClient->sendData(CONTEXT_SEND_UPGRADE_DATA_FINISH, QModbusPdu::WriteSingleRegister, datas);
-}
-
-void UpgradeController::doGetProgress()
-{
-    QByteArray datas;
-    datas.append((char)0x75);
-    datas.append((char)0x4d);
-    datas.append((char)0x00);
-    datas.append((char)0x01);
-    m_modbusClient->sendData(CONTEXT_GET_UPGRADE_PROGRESS, QModbusPdu::ReadInputRegisters, datas);
 }
 
 void UpgradeController::doCancelUpgrade()

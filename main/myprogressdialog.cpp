@@ -11,6 +11,7 @@ MyProgressDialog::MyProgressDialog(const QString &labelText, const QString &canc
     setWindowFlag(Qt::MSWindowsFixedSizeDialogHint, true);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setFixedSize(470, 80);
+    setAutoReset(false);
 }
 
 void MyProgressDialog::setSuccess()

@@ -217,8 +217,15 @@ void UpgradeController::doSendDataFinish()
     QByteArray datas;
     datas.append((char)0x9c);
     datas.append((char)0x5a);
-    datas.append((char)0x00);
-    datas.append((char)0x01);
+
+    int totalSize = 0;
+    for (auto& fileData : m_fileDatas)
+    {
+        totalSize += fileData.size();
+    }
+
+    datas.append((char)((totalSize>>8)&0xff));
+    datas.append((char)(totalSize&0xff));
     m_modbusClient->sendData(CONTEXT_SEND_UPGRADE_DATA_FINISH, QModbusPdu::WriteSingleRegister, datas);
 }
 

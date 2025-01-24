@@ -41,10 +41,10 @@ void UpgradeController::run(QWidget* parent)
     });
     m_progressTimer->start();
 
-    connect(m_progressDlg, &MyProgressDialog::finished, [this](int result) {
+    connect(m_progressDlg, &MyProgressDialog::finished, [this](int) {
         m_progressDlg = nullptr;
         m_progressTimer = nullptr;
-        if (result != QDialog::Accepted)
+        if (!m_upgradeSuccess)
         {
             doCancelUpgrade();
         }
@@ -124,7 +124,7 @@ bool UpgradeController::recvData(const QString& context, bool success, const QBy
     {
         if (success)
         {
-            m_progressDlg->accept();
+            m_upgradeSuccess = true;
             m_progressDlg->setLabelText(QString::fromWCharArray(L"升级成功"));
             m_progressDlg->setValue(m_progressDlg->maximum());
             m_progressTimer->stop();
@@ -149,7 +149,7 @@ void UpgradeController::splitFileData()
     while(!file.atEnd())
     {
         // 帧序号(2)+长度(1)+data长度必需4的倍数
-        QByteArray data = file.read(233);
+        QByteArray data = file.read(232);
         m_fileDatas.append(data);
     }
 

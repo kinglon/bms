@@ -51,6 +51,8 @@ public:
     int m_nextSendIndex = 0;
 
     int m_retryCount = 0;
+
+    bool m_upgradeSuccess = false;
 };
 
 #endif // UPGRADECONTROLLER_H

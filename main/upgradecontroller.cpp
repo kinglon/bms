@@ -31,12 +31,19 @@ void UpgradeController::run(QWidget* parent)
             return;
         }
 
-        // 根据下发的数据块数，更新进度值
-        if (m_fileDatas.size() > 0)
+        if (m_upgradeSuccess)
         {
-            float percent = m_nextSendIndex*1.0f / m_fileDatas.size();
-            int value = qMin(int(percent*m_progressDlg->maximum()), 90);
-            m_progressDlg->setValue(value);
+            m_progressDlg->setValue(m_progressDlg->maximum());
+        }
+        else
+        {
+            // 根据下发的数据块数，更新进度值
+            if (m_fileDatas.size() > 0)
+            {
+                float percent = m_nextSendIndex*1.0f / m_fileDatas.size();
+                int value = qMin(int(percent*m_progressDlg->maximum()), 90);
+                m_progressDlg->setValue(value);
+            }
         }
     });
     m_progressTimer->start();

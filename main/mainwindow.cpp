@@ -742,6 +742,12 @@ void MainWindow::onWriteParamButtonClicked()
         PARAM_NAME_JUNHENG_JIXIAN_DIANYA, PARAM_NAME_JUNHENG_QIDONG_DIANYA, PARAM_NAME_JUNHENG_QIDONG_YACHA, PARAM_NAME_JUNHENG_JUESHU_YACHA,
         PARAM_NAME_CHONGDIAN_GUOLIU_BAOHU_YANSHI, PARAM_NAME_FANGDIAN_GUOLIU_BAOHU_YANSHI, PARAM_NAME_DUANLU_BAOHU_YANSHI};
 
+    // 需要4个字节的字段
+    static QString fourFieldsParamNames [] = {
+        PARAM_NAME_ZONG_GUOYA, PARAM_NAME_ZONG_QIANYA, PARAM_NAME_CHARGE_GUOLIU_PROTECT, PARAM_NAME_FANGDIAN_GUOLIU_PROTECT,
+        PARAM_NAME_DUANLU_PROTECT, PARAM_NAME_FANGDIAN_GUOLIU_WARNING, PARAM_NAME_TWO_FANGDIAN_GUOLIU_PROTECT
+    };
+
     QByteArray datas;
     datas.append((char)0x9c);
     datas.append((char)0x41);
@@ -750,6 +756,17 @@ void MainWindow::onWriteParamButtonClicked()
     datas.append((char)0x2c);
     for (int i=0; i<sizeof(needWriteParamNames)/sizeof(needWriteParamNames[0]); i++)
     {
+        // 获取该字段的字节数
+        int fieldBytes = 2;
+        for (int j=0; j<sizeof(fourFieldsParamNames)/sizeof(fourFieldsParamNames[0]); j++)
+        {
+            if (needWriteParamNames[i] == fourFieldsParamNames[j])
+            {
+                fieldBytes = 4;
+                break;
+            }
+        }
+
         bool found = false;
         for (int j=0; j<writeParamNames.size(); j++)
         {
@@ -758,16 +775,24 @@ void MainWindow::onWriteParamButtonClicked()
                 found = true;
                 break;
             }
-        }
+        }        
 
         if (!found)
         {
-            datas.append((char)0x00);
-            datas.append((char)0x00);
+            // 该字段没配置
+            for (int k=0; k<fieldBytes; k++)
+            {
+                datas.append((char)0x00);
+            }
         }
         else
         {
             int value = DataManager::getInstance()->getParamByName(needWriteParamNames[i])->m_value;
+            if (fieldBytes == 4)
+            {
+                datas.append((char)((value>>24)&0xff));
+                datas.append((char)((value>>16)&0xff));
+            }
             datas.append((char)((value>>8)&0xff));
             datas.append((char)(value&0xff));
         }

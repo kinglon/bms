@@ -7,6 +7,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#define MAX_INT_VALUE 10000000
+
+
 DataManager::DataManager()
 {
     m_params.append(ParamItem(PARAM_NAME_CHARGE_MOS_SWITCH,
@@ -206,7 +209,7 @@ DataManager::DataManager()
 
     m_params.append(ParamItem(PARAM_NAME_DANTI_GUOYA,
                               PARAM_VALUE_TYPE_INT,
-                              4, // value
+                              4200, // value
                               0, // min value
                               65535, // max value
                               "",  // unit
@@ -214,15 +217,15 @@ DataManager::DataManager()
 
     m_params.append(ParamItem(PARAM_NAME_ZONG_GUOYA,
                               PARAM_VALUE_TYPE_INT,
-                              64, // value
+                              64000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_DANTI_QIANYA,
                               PARAM_VALUE_TYPE_INT,
-                              3, // value
+                              2700, // value
                               0, // min value
                               65535, // max value
                               "",  // unit
@@ -230,49 +233,49 @@ DataManager::DataManager()
 
     m_params.append(ParamItem(PARAM_NAME_ZONG_QIANYA,
                               PARAM_VALUE_TYPE_INT,
-                              48, // value
+                              48000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_CHARGE_GUOLIU_PROTECT,
                               PARAM_VALUE_TYPE_INT,
-                              30, // value
+                              30000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_FANGDIAN_GUOLIU_PROTECT,
                               PARAM_VALUE_TYPE_INT,
-                              30, // value
+                              100000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_DUANLU_PROTECT,
                               PARAM_VALUE_TYPE_INT,
-                              50, // value
+                              200000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_FANGDIAN_GUOLIU_WARNING,
                               PARAM_VALUE_TYPE_INT,
-                              50, // value
+                              80000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_TWO_FANGDIAN_GUOLIU_PROTECT,
                               PARAM_VALUE_TYPE_INT,
-                              50, // value
+                              150000, // value
                               0, // min value
-                              65535, // max value
+                              MAX_INT_VALUE, // max value
                               "",  // unit
                               true)); // local save
 

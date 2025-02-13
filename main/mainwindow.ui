@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>电池助手</string>
+   <string>巴特瑞</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="batteryStatusTab">
      <attribute name="title">
@@ -1905,7 +1905,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="dantiGuoyaCheckBox">
                  <property name="text">
-                  <string>单体过压保护 V</string>
+                  <string>单体过压保护 mV</string>
                  </property>
                 </widget>
                </item>
@@ -1919,7 +1919,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="zongGuoyaCheckBox">
                  <property name="text">
-                  <string>总压过压保护 V</string>
+                  <string>总压过压保护 mV</string>
                  </property>
                 </widget>
                </item>
@@ -1933,7 +1933,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="dantiQianyaCheckBox">
                  <property name="text">
-                  <string>单体欠压保护 V</string>
+                  <string>单体欠压保护 mV</string>
                  </property>
                 </widget>
                </item>
@@ -1947,7 +1947,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="zongQianyaCheckBox">
                  <property name="text">
-                  <string>总压欠压保护 V</string>
+                  <string>总压欠压保护 mV</string>
                  </property>
                 </widget>
                </item>
@@ -1992,7 +1992,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>充电过流保护 A</string>
+                  <string>充电过流保护 mA</string>
                  </property>
                 </widget>
                </item>
@@ -2018,7 +2018,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>放电过流保护 A</string>
+                  <string>放电过流保护 mA</string>
                  </property>
                 </widget>
                </item>
@@ -2044,7 +2044,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>短路保护 A</string>
+                  <string>短路保护 mA</string>
                  </property>
                 </widget>
                </item>
@@ -2070,7 +2070,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>放电过流报警 A</string>
+                  <string>放电过流报警 mA</string>
                  </property>
                 </widget>
                </item>
@@ -2096,7 +2096,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>二级放电过流保护 A</string>
+                  <string>二级放电过流保护mA</string>
                  </property>
                 </widget>
                </item>
@@ -2268,7 +2268,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡极限电压 V</string>
+                  <string>均衡极限电压 mV</string>
                  </property>
                 </widget>
                </item>
@@ -2294,7 +2294,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡启动电压 V</string>
+                  <string>均衡启动电压 mV</string>
                  </property>
                 </widget>
                </item>

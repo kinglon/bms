@@ -208,7 +208,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_DANTI_GUOYA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               4200, // value
                               0, // min value
                               65535, // max value
@@ -216,7 +216,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_ZONG_GUOYA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               64000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -224,7 +224,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_DANTI_QIANYA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               2700, // value
                               0, // min value
                               65535, // max value
@@ -232,7 +232,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_ZONG_QIANYA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               48000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -240,7 +240,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_CHARGE_GUOLIU_PROTECT,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               30000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -248,7 +248,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_FANGDIAN_GUOLIU_PROTECT,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               100000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -256,7 +256,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_DUANLU_PROTECT,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               200000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -264,7 +264,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_FANGDIAN_GUOLIU_WARNING,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               80000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -272,7 +272,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_TWO_FANGDIAN_GUOLIU_PROTECT,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               150000, // value
                               0, // min value
                               MAX_INT_VALUE, // max value
@@ -280,23 +280,23 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_JUNHENG_JIXIAN_DIANYA,
-                              PARAM_VALUE_TYPE_INT,
-                              4, // value
+                              PARAM_VALUE_TYPE_FLOAT,
+                              4200, // value
                               0, // min value
                               65535, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_JUNHENG_QIDONG_DIANYA,
-                              PARAM_VALUE_TYPE_INT,
-                              2, // value
+                              PARAM_VALUE_TYPE_FLOAT,
+                              2500, // value
                               0, // min value
                               65535, // max value
                               "",  // unit
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_JUNHENG_QIDONG_YACHA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               50, // value
                               0, // min value
                               65535, // max value
@@ -304,7 +304,7 @@ DataManager::DataManager()
                               true)); // local save
 
     m_params.append(ParamItem(PARAM_NAME_JUNHENG_JUESHU_YACHA,
-                              PARAM_VALUE_TYPE_INT,
+                              PARAM_VALUE_TYPE_FLOAT,
                               10, // value
                               0, // min value
                               65535, // max value

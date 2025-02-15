@@ -1905,7 +1905,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="dantiGuoyaCheckBox">
                  <property name="text">
-                  <string>单体过压保护 mV</string>
+                  <string>单体过压保护 V</string>
                  </property>
                 </widget>
                </item>
@@ -1919,7 +1919,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="zongGuoyaCheckBox">
                  <property name="text">
-                  <string>总压过压保护 mV</string>
+                  <string>总压过压保护 V</string>
                  </property>
                 </widget>
                </item>
@@ -1933,7 +1933,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="dantiQianyaCheckBox">
                  <property name="text">
-                  <string>单体欠压保护 mV</string>
+                  <string>单体欠压保护 V</string>
                  </property>
                 </widget>
                </item>
@@ -1947,7 +1947,7 @@ color: blue;</string>
                <item>
                 <widget class="QCheckBox" name="zongQianyaCheckBox">
                  <property name="text">
-                  <string>总压欠压保护 mV</string>
+                  <string>总压欠压保护 V</string>
                  </property>
                 </widget>
                </item>
@@ -1992,7 +1992,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>充电过流保护 mA</string>
+                  <string>充电过流保护 A</string>
                  </property>
                 </widget>
                </item>
@@ -2018,7 +2018,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>放电过流保护 mA</string>
+                  <string>放电过流保护 A</string>
                  </property>
                 </widget>
                </item>
@@ -2044,7 +2044,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>短路保护 mA</string>
+                  <string>短路保护 A</string>
                  </property>
                 </widget>
                </item>
@@ -2070,7 +2070,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>放电过流报警 mA</string>
+                  <string>放电过流报警 A</string>
                  </property>
                 </widget>
                </item>
@@ -2096,7 +2096,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>二级放电过流保护mA</string>
+                  <string>二级放电过流保护 A</string>
                  </property>
                 </widget>
                </item>
@@ -2268,7 +2268,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡极限电压 mV</string>
+                  <string>均衡极限电压 V</string>
                  </property>
                 </widget>
                </item>
@@ -2294,7 +2294,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡启动电压 mV</string>
+                  <string>均衡启动电压 V</string>
                  </property>
                 </widget>
                </item>
@@ -2320,7 +2320,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡启动压差 mV</string>
+                  <string>均衡启动压差 V</string>
                  </property>
                 </widget>
                </item>
@@ -2346,7 +2346,7 @@ color: blue;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>均衡结束压差 mV</string>
+                  <string>均衡结束压差 V</string>
                  </property>
                 </widget>
                </item>

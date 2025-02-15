@@ -752,8 +752,8 @@ void MainWindow::onWriteParamButtonClicked()
     datas.append((char)0x9c);
     datas.append((char)0x41);
     datas.append((char)0x00);
-    datas.append((char)0x16);
-    datas.append((char)0x2c);
+    datas.append((char)0x1d);
+    datas.append((char)0x3a);
     for (int i=0; i<sizeof(needWriteParamNames)/sizeof(needWriteParamNames[0]); i++)
     {
         // 获取该字段的字节数

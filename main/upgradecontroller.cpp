@@ -179,7 +179,7 @@ void UpgradeController::doStartUpgrade()
 
     QByteArray datas;
     datas.append((char)0x9c);
-    datas.append((char)0x57);
+    datas.append((char)0x5e);
     datas.append((char)0x00);
     datas.append((char)0x03);
     datas.append((char)0x06);
@@ -223,7 +223,7 @@ void UpgradeController::doSendDataFinish()
 {
     QByteArray datas;
     datas.append((char)0x9c);
-    datas.append((char)0x5a);
+    datas.append((char)0x61);
 
     int totalSize = 0;
     for (auto& fileData : m_fileDatas)
@@ -240,7 +240,7 @@ void UpgradeController::doCancelUpgrade()
 {
     QByteArray datas;
     datas.append((char)0x9c);
-    datas.append((char)0x5b);
+    datas.append((char)0x62);
     datas.append((char)0x00);
     datas.append((char)0x01);
     m_modbusClient->sendData(CONTEXT_CANCEL_UPGRADE, QModbusPdu::WriteSingleRegister, datas);
